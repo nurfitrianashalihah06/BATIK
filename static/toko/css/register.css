@@ -1,0 +1,162 @@
+/* static/toko/css/register.css */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* ✅ Tambahkan Gambar Latar Belakang */
+  background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+  background-color: #f0f2f5; /* Warna fallback jika gambar gagal dimuat */
+  background-attachment: fixed; /* Membuat background diam saat di-scroll */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.register-wrapper {
+  display: flex;
+  background-color: #fff;
+  border-radius: 16px;
+  width: 950px;
+  max-width: 100%;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+  .image-left {
+  flex-basis: 48%;
+  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+}
+.form-right {
+  flex-basis: 52%;
+  padding: 40px 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  background: none;
+  border: none;
+}
+h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+p.description {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: #555;
+}
+input, select {
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  outline: none;
+  color: #333;
+  transition: all 0.25s ease;
+}
+input::placeholder, select { color: #aaa; }
+input:focus, select:focus {
+  background-color: #fff;
+  border-color: #c44705;
+}
+select {
+  appearance: none;
+  cursor: pointer;
+}
+button.register-btn {
+  background-color: #c44705;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 0;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button.register-btn:hover { background-color: #9b3600; }
+.alternate-text {
+  font-size: 0.9rem;
+  margin-top: 20px;
+  color: #555;
+  text-align: center;
+}
+.alternate-text a {
+  color: #c44705;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 6px;
+}
+.alternate-text a:hover { text-decoration: underline; }
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0 20px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.separator::before, .separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #eee;
+  margin: 0 12px;
+}
+.policy-text {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.policy-text strong { font-weight: 700; color: #555; }
+.google-btn {
+  background-color: #f9f9f9;
+  border-radius: 30px;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.google-btn:hover { background-color: #f1f1f1; }
+.google-icon {
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #c44705;
+}
+
+@media (max-width: 768px) {
+  .register-wrapper {
+    flex-direction: column;
+    width: 95vw;
+  }
+  .image-left {
+  flex-basis: 48%;
+  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+}
+  .form-right { padding: 30px 24px; }
+}

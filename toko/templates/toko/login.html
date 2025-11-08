@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Fortuna Batik</title>
+  <link rel="stylesheet" href="{% static 'toko/css/login.css' %}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="login-wrapper" role="dialog" aria-modal="true" aria-labelledby="login-header">
+    <div class="image-left" aria-hidden="true"></div>
+
+    <form class="form-right" action="{% url 'toko:login' %}" method="post">
+      {% csrf_token %}
+
+      <button type="button" class="close-btn" aria-label="Close Login" onclick="window.history.back();">&times;</button>
+
+      {% if messages %}
+        <div class="messages" style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+      <h1 id="login-header">Login</h1>
+      <p class="description">Masukkan akun Anda untuk melanjutkan.</p>
+
+      <input type="text" name="username" placeholder="Masukkan Email atau Username" autocomplete="username" required />
+      <input type="password" name="password" placeholder="Masukkan Kata Sandi" autocomplete="current-password" required />
+
+      {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+      {% endif %}
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <p class="alternate-text">Belum punya akun? <a href="{% url 'toko:register' %}">Register</a></p>
+
+      <div class="separator">OR</div>
+
+      <button type="button" class="google-btn" aria-label="Continue with Google">
+        <span class="google-icon">G</span> Continue with Google
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>

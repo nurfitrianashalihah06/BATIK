@@ -1,0 +1,152 @@
+/* static/toko/css/login.css */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #b0b0b0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login-wrapper {
+  display: flex;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 900px;
+  max-width: 95vw;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+  .image-left {
+  flex-basis: 48%;
+  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+}
+.form-right {
+  flex-basis: 55%;
+  padding: 40px 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 24px;
+  color: #222;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+}
+h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 18px;
+}
+p.description {
+  font-size: 1rem;
+  margin-bottom: 26px;
+  color: #444;
+}
+input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border-radius: 30px;
+  border: none;
+  background-color: #f3f4f6;
+  font-size: 1rem;
+  outline: none;
+  color: #555;
+  transition: background-color 0.25s ease;
+}
+input::placeholder { color: #bbb; }
+input:focus { background-color: #e8e8e8; }
+button.login-btn {
+  background-color: #c44705;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 0;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button.login-btn:hover { background-color: #9b3600; }
+.alternate-text {
+  font-size: 0.9rem;
+  margin-top: 18px;
+  color: #555;
+}
+.alternate-text a {
+  color: #c44705;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 6px;
+  cursor: pointer;
+}
+.alternate-text a:hover { text-decoration: underline; }
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 28px 0 20px;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+.separator::before, .separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  margin: 0 12px;
+}
+.policy-text {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+.policy-text strong { font-weight: 700; }
+.google-btn {
+  background-color: #f3f4f6;
+  border-radius: 30px;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c44705;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.google-btn:hover { background-color: #e6e6e6; }
+.google-icon {
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+@media (max-width: 760px) {
+  .login-wrapper {
+    flex-direction: column;
+    width: 95vw;
+  }
+   .image-left {
+  flex-basis: 48%;
+  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+}
+  .form-right {
+    flex-basis: auto;
+    padding: 30px 24px;
+  }
+  .close-btn {
+    top: 15px;
+    right: 15px;
+  }
+}

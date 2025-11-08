@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Selamat Datang di Fortuna Batik Wonogiren{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <img src="{% static 'toko/image/batik1.jpg' %}" alt="Batik Art Work" />
+
+  <div class="text-box">
+    <h1>FORTUNA BATIK WONOGIREN</h1>
+    <p>Mengangkat Tradisi dengan Gaya</p>
+    <a href="{% url 'toko:daftar_produk' %}" class="btn-primary">Pesan Sekarang</a>
+  </div>
+</section>
+
+<section class="intro container">
+  <h2>Batik Wonogiren</h2>
+  <p>Batik Wonogiren merupakan warisan budaya dari Wonogiri, Jawa Tengah, yang dikenal dengan motif yang anggun dan warna yang lembut. Mengangkat nilai tradisi Jawa dalam setiap helai kainnya, batik ini menjadi simbol keanggunan, kearifan lokal, dan ketekunan tangan-tangan pengrajin.</p>
+
+  <a href="{% url 'toko:tentang_kami' %}" class="btn-outline" style="margin-top: 20px;">
+    Pelajari Kisah Kami
+  </a>
+</section>
+
+<section class="products">
+  <h2>Produk Unggulan</h2>
+  <div class="product-list">
+    {# Contoh produk, Anda bisa loop dari context Django di sini #}
+    <div class="product-card">
+      <img src="{% static 'toko/image/batik4.jpg' %}" alt="Batik Remekan Wonogiren Motif 1">
+      <div class="title">Batik Remekan Wonogiren Motif 1</div>
+      <div class="subtitle">Batik Remekan · Warna Alam</div>
+      <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
+    </div>
+    <div class="product-card">
+      <img src="{% static 'toko/image/batik5.jpg' %}" alt="Batik Lawasan Motif 2" />
+      <div class="title">Batik Lawasan Motif 3</div>
+      <div class="subtitle">Batik Tulis · Batik Remekan</div>
+      <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
+    </div>
+    <div class="product-card">
+      <img src="{% static 'toko/image/batik6.jpg' %}" alt="Batik Remekan Wonogiren Motif 3" />
+      <div class="title">Batik Remekan Wonogiren Motif 2</div>
+      <div class="subtitle">Batik Remekan · Warna Coklat</div>
+      <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
+    </div>
+    <div class="product-card">
+      <img src="{% static 'toko/image/batik7.jpg' %}" alt="Batik Kawung Motif 2" />
+      <div class="title">Batik Kawung Motif 2</div>
+      <div class="subtitle">Batik Indigo · Batik Remekan</div>
+      <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
+    </div>
+  </div>
+ <a href="{% url 'toko:daftar_produk' %}" class="btn-outline">Lihat Lainnya</a>
+</section>
+
+<section class="follow-section">
+  <div class="follow-text">
+    <h3>Follow us</h3>
+    <p>@fortunabatik<br />
+      Ikuti kami di media sosial untuk mendapatkan kabar terbaru, promosi, dan penawaran menarik. Jangan sampai ketinggalan!
+    </p>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter" class="twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+  <div class="instagram-grid">
+    <img src="{% static 'toko/image/batik8.jpg' %}" alt="Batik pattern 1" />
+    <img src="{% static 'toko/image/batik9.jpg' %}" alt="Batik pattern 2" />
+    <img src="{% static 'toko/image/batik10.jpg' %}" alt="Batik pattern 3" />
+    <img src="{% static 'toko/image/batik11.jpg' %}" alt="Batik pattern 4" />
+    <img src="{% static 'toko/image/batik12.jpg' %}" alt="Batik pattern 5" />
+    <img src="{% static 'toko/image/batik13.jpg' %}" alt="Batik pattern 6" />
+    <img src="{% static 'toko/image/batik14.jpg' %}" alt="Batik pattern 7" />
+    <img src="{% static 'toko/image/batik15.jpg' %}" alt="Batik pattern 8" />
+    <img src="{% static 'toko/image/batik17.jpg' %}" alt="Batik pattern 9" />
+  </div>
+</section>
+{% endblock %}

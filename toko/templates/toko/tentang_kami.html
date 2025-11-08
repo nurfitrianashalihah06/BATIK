@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fortuna Batik - Tentang Kami{% endblock %}
+
+{% block content %}
+
+<section class="about-hero-container" style="background-image:url('{% static 'toko/image/batik2.jpg' %}');">
+
+    <div class="about-content-box">
+        <h1>Tentang Kami</h1>
+        <p>
+            Toko Fortuna Batik Wonogiren berawal dari kecintaan keluarga terhadap seni batik tradisional khas Wonogiri. Berdiri sebagai usaha rumahan, toko ini mulai beroperasi secara lokal untuk memenuhi kebutuhan masyarakat akan batik berkualitas dengan motif khas daerah.
+        </p>
+        <p>
+            Seiring waktu, Fortuna Batik berkembang menjadi toko yang dikenal akan keaslian motif, kualitas kain, dan pelayanan yang ramah. Dengan mengandalkan pengrajin lokal, toko ini tidak hanya menjadi pusat belanja batik, tetapi juga bagian dari upaya pelestarian budaya. Kini, Fortuna Batik terus berinovasi untuk menjangkau pasar digital, menghadirkan koleksi batik yang anggun, modern, dan tetap bernilai tradisi.
+        </p>
+    </div>
+</section>
+
+<section class="tradition-section">
+    <div class="tradition-text">
+        <h2>Warisan Tradisi,<br />Sentuhan Masa Kini</h2>
+        <p>
+            Fortuna Batik Wonogiren menghadirkan keindahan batik tradisional dalam gaya modern yang elegan. Perpaduan antara filosofi motif Jawa dan desain kekinian menjadikan setiap karya tak hanya berkelas, tapi juga bermakna. Cocok untuk berbagai momen, dari acara formal hingga gaya sehari-hari.
+        </p>
+    </div>
+    <div class="tradition-images" aria-label="Gambar motif batik tradisional">
+        <img src="{% static 'toko/image/batik24.jpg' %}" alt="Motif batik coklat" class="circle-image" />
+        <img src="{% static 'toko/image/batik25.jpg' %}" alt="Motif batik hitam coklat" class="circle-image" />
+        <img src="{% static 'toko/image/batik26.jpg' %}" alt="Motif batik putih coklat" class="circle-image" />
+    </div>
+</section>
+
+<section class="follow-section">
+    </section>
+
+<section class="follow-section">
+    </section>
+
+{% endblock %}

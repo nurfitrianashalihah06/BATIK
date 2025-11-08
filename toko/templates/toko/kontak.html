@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kontak Kami - Fortuna Batik{% endblock %}
+
+{% block content %}
+<main class="container">
+  <h1 class="section-title">Kontak Kami</h1>
+  <p style="text-align: center; margin-top: -20px; margin-bottom: 40px;">Kami senang mendengar dari Anda. Hubungi kami kapan saja!</p>
+
+  <div class="contact-wrapper">
+
+    <div class="contact-layout">
+
+      <div class="contact-info">
+        <h3>Informasi Kontak</h3>
+        <p>Jangan ragu untuk menghubungi kami melalui detail di bawah ini atau gunakan formulir di samping.</p>
+        <ul>
+          <li>
+            <strong><i class="fas fa-map-marker-alt"></i> Alamat:</strong><br>
+            Jl. Raya Wonogiri No. 123, Jawa Tengah
+          </li>
+          <li>
+            <strong><i class="fas fa-envelope"></i> Email:</strong><br>
+            info@fortunabatik.com
+          </li>
+          <li>
+            <strong><i class="fas fa-phone"></i> Telepon / WA:</strong><br>
+            +62 812-3456-7890
+          </li>
+        </ul>
+      </div>
+
+      <div class="contact-form">
+        <h3>Kirim Pesan</h3>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="message-success">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn-primary">Kirim Pesan</button>
+        </form>
+      </div>
+
+    </div> </div> </main>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Keranjang Belanja - Fortuna Batik{% endblock %}
+
+{% block content %}
+<main class="container">
+  <h1 class="section-title">Keranjang Belanja Anda</h1>
+
+{% if messages %}
+    {% for message in messages %}
+      <div class="message-success" style="padding: 15px; background-color: #e8f5e9; color: #1b5e20; border-radius: 5px; margin-bottom: 20px; font-weight: 500; text-align: center;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="cart-layout">
+    <div class="cart-items-list">
+      {% if cart_items %}
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th colspan="2">Produk</th>
+              <th>Harga</th>
+              <th>Jumlah</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+            <tr>
+              <td>
+                <img src="{{ item.produk.gambar.url }}" alt="{{ item.produk.nama }}" class="cart-item-image">
+              </td>
+              <td>
+                <a href="{% url 'toko:detail_produk' item.produk.slug %}" class="cart-item-name">{{ item.produk.nama }}</a>
+                <a href="{% url 'toko:hapus_dari_keranjang' item.produk.id %}" class="cart-item-remove">Hapus</a>
+              </td>
+              <td>Rp {{ item.harga|floatformat:0 }}</td>
+              <td>{{ item.jumlah }}</td>
+              <td>Rp {{ item.subtotal|floatformat:0 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>Keranjang belanja Anda masih kosong.</p>
+        <a href="{% url 'toko:daftar_produk' %}" class="btn-primary" style="margin-top: 20px;">Mulai Belanja</a>
+      {% endif %}
+    </div>
+
+    {% if cart_items %}
+    <div class="cart-summary">
+      <h3>Ringkasan Belanja</h3>
+      <div class="summary-row">
+        <span>Total Harga</span>
+        <span>Rp {{ total_harga_keranjang|floatformat:0 }}</span>
+      </div>
+      <a href="{% url 'toko:checkout' %}" class="btn-checkout">Lanjut ke Checkout</a>
+    </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

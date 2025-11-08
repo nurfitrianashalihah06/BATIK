@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pesanan Diterima - Fortuna Batik</title>
+  <link rel="stylesheet" href="{% static 'toko/css/pesanan.css' %}">
+</head>
+<body>
+
+  <div class="popup-wrapper" role="dialog" aria-modal="true" aria-labelledby="popup-header">
+    <div class="image-left" aria-hidden="true"></div>
+
+    <div class="content-right">
+
+      <a href="{% url 'toko:homepage' %}" class="close-btn" aria-label="Close">&times;</a>
+
+      <h1 id="popup-header">Terima Kasih</h1>
+      <p class="description">Pesanan Anda #{{ order.id }} telah kami terima.</p>
+
+      <div class="instructions">
+        <h3>Instruksi Pembayaran</h3>
+        <p>Silakan lakukan transfer sejumlah <strong>Rp {{ order.total_bayar|floatformat:0 }}</strong> ke rekening berikut:</p>
+        <ul style="margin-top: 10px;">
+          <li><strong>Bank:</strong> Bank BCA</li>
+          <li><strong>No. Rekening:</strong> 123-456-7890</li>
+          <li><strong>Atas Nama:</strong> Fortuna Batik</li>
+        </ul>
+      </div>
+
+      {% if not order.lunas and not order.bukti_pembayaran %}
+        <form class="upload-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ upload_form.as_p }}
+          <button type="submit" class="btn-submit-upload">Upload Bukti Transfer</button>
+        </form>
+
+      {% elif order.bukti_pembayaran %}
+        <div style="background: #e0f2f1; color: #004d40; padding: 15px; border-radius: 8px; text-align: center; font-weight: 500;">
+          Bukti pembayaran Anda sudah di-upload dan sedang kami periksa.
+        </div>
+
+      {% elif order.lunas %}
+        <div style="background: #e8f5e9; color: #1b5e20; padding: 15px; border-radius: 8px; text-align: center; font-weight: 500;">
+          Pesanan ini sudah lunas. Terima kasih!
+        </div>
+      {% endif %}
+
+      <p class="back-link">
+        <a href="{% url 'toko:homepage' %}">Kembali ke Homepage</a>
+      </p>
+
+    </div>
+  </div>
+
+</body>
+</html>

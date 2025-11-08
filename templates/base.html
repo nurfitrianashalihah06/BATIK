@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Fortuna Batik Wonogiren{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'toko/css/main.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+    <a href="{% url 'toko:homepage' %}" class="logo">Fortuna Batik</a>
+
+    <nav>
+        <ul>
+            <li class="{% if request.resolver_match.url_name == 'daftar_produk' %}active{% endif %}">
+                <a href="{% url 'toko:daftar_produk' %}">Produk</a>
+            </li>
+            <li class="{% if request.resolver_match.url_name == 'tentang_kami' %}active{% endif %}">
+                <a href="{% url 'toko:tentang_kami' %}">Tentang Kami</a>
+            </li>
+            <li><a href="{% url 'toko:kontak' %}">Kontak</a></li>
+            <li><a href="{% url 'toko:lihat_keranjang' %}">Keranjang</a></li>
+
+            {% if not user.is_authenticated %}
+                <li class="highlight"><a href="{% url 'toko:daftar_produk' %}">Pesan Sekarang</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="header-actions">
+        {% if user.is_authenticated %}
+            <a href="{% url 'toko:logout' %}" class="logout-btn">Logout</a>
+
+            <a href="{% url 'toko:profil' %}" class="user-profile-link">
+            Halo, {{ user.first_name|default:user.username }}
+        </a>
+
+        {% else %}
+            <a href="{% url 'toko:login' %}" class="login-btn">Login</a>
+        {% endif %}
+    </div>
+
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    <div class="footer-left">
+        <div class="footer-logo">Fortuna Batik</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'toko:homepage' %}">Produk</a></li>
+                <li><a href="{% url 'toko:tentang_kami' %}">Tentang Kami</a></li>
+                <li><a href="#">Kontak</a></li>
+                <li><a href="#">Keranjang</a></li>
+            </ul>
+        </nav>
+        <p>© {% now "Y" %} Fortuna Batik, Inc. · Privacy · Terms · Sitemap</p>
+    </div>
+    <div class="footer-right">
+        <p>Jl. Raya Wonogiri No. 123, Jawa Tengah</p>
+        <p><a href="mailto:info@fortunabatik.com">info@fortunabatik.com</a></p>
+        <div class="social-icons-footer">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script>
+  // Menunggu semua konten HTML dimuat sebelum menjalankan skrip
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Cari semua grup input jumlah di halaman
+    const quantityGroups = document.querySelectorAll('.quantity-input');
+
+    quantityGroups.forEach(function(group) {
+      const minusBtn = group.querySelector('.quantity-btn.minus');
+      const plusBtn = group.querySelector('.quantity-btn.plus');
+      const inputField = group.querySelector('input[name="quantity"]');
+
+      if (minusBtn && plusBtn && inputField) {
+
+        // Atur apa yang terjadi saat tombol minus (-) diklik
+        minusBtn.addEventListener('click', function() {
+          let currentValue = parseInt(inputField.value);
+          // Pastikan jumlah tidak kurang dari 1
+          if (currentValue > 1) {
+            inputField.value = currentValue - 1;
+          }
+        });
+
+        // Atur apa yang terjadi saat tombol plus (+) diklik
+        plusBtn.addEventListener('click', function() {
+          let currentValue = parseInt(inputField.value);
+          // Tambahkan 1 ke jumlah
+          inputField.value = currentValue + 1;
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>

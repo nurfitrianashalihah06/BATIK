@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ produk.nama }} - Fortuna Batik{% endblock %}
+
+{% block content %}
+<main class="container">
+<a href="{% url 'toko:daftar_produk' %}" class="btn-back-simple">
+    &larr; Kembali ke Daftar Produk
+  </a>
+  <div class="product-detail-layout">
+
+    <div class="product-image-gallery">
+  <div class="product-detail-layout">
+    
+    <div class="product-image-gallery">
+      {% if produk.gambar %}
+        <img src="{{ produk.gambar.url }}" alt="{{ produk.nama }}" class="main-product-image" />
+      {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="{{ produk.nama }}" class="main-product-image" />
+      {% endif %}
+    </div>
+
+    <div class="product-info-panel">
+      <div class="product-categories">
+        {% for kat in produk.kategori.all %}
+          <span>{{ kat.nama }}</span>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      </div>
+      <h1 class="product-detail-name">{{ produk.nama }}</h1>
+      <p class="product-detail-price">Rp {{ produk.harga|floatformat:0 }}</p>
+      
+      <div class="product-description">
+        <div class="product-description-safe">
+    {{ produk.deskripsi|safe }}
+</div>
+      </div>
+
+      <form action="{% url 'toko:tambah_ke_keranjang' produk.id %}" method="post" class="product-actions">
+  {% csrf_token %}
+  <div class="quantity-selector">
+    <label for="quantity">Jumlah</label>
+    <div class="quantity-input">
+      <button type="button" class="quantity-btn minus">-</button>
+      <input type="number" id="quantity" name="quantity" value="1" min="1" style="width: 50px; text-align: center; border: none;">
+      <button type="button" class="quantity-btn plus">+</button>
+    </div>
+  </div>
+  <button type="submit" class="btn-add-to-cart">
+    <i class="fas fa-shopping-cart"></i> Masukkan ke Keranjang
+  </button>
+</form>
+    </div>
+
+  </div>
+
+  {% if produk_terkait %}
+  <div class="related-products">
+    <h2 class="section-title">Anda Mungkin Juga Suka</h2>
+    <div class="product-list">
+      {% for p in produk_terkait %}
+      <div class="product-card">
+        <a href="{% url 'toko:detail_produk' p.slug %}">
+          {% if p.gambar %}
+            <img src="{{ p.gambar.url }}" alt="{{ p.nama }}">
+          {% else %}
+            <img src="{% static 'images/placeholder.png' %}" alt="{{ p.nama }}">
+          {% endif %}
+          <div class="title">{{ p.nama }}</div>
+          <div class="subtitle">
+            {% for kat in p.kategori.all %}
+              {{ kat.nama }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+          <div class="price">Rp {{ p.harga|floatformat:0 }}</div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</main>
+{% endblock %}

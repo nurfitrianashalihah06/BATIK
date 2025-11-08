@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register - Fortuna Batik</title>
+  <link rel="stylesheet" href="{% static 'toko/css/register.css' %}">
+</head>
+<body>
+
+  <div class="register-wrapper" role="dialog" aria-modal="true" aria-labelledby="register-header">
+    <div class="image-left" aria-hidden="true"></div>
+
+    <form class="form-right" action="{% url 'toko:register' %}" method="post">
+      {% csrf_token %}
+
+      <button type="button" class="close-btn" aria-label="Close Register" onclick="window.history.back();">&times;</button>
+      <h1 id="register-header">Register</h1>
+      <p class="description">Masukkan Informasi Anda untuk Register</p>
+
+      {% if form.non_field_errors %}
+        <div class="form-errors">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        {% if field.errors %}
+          <div class="field-errors" style="color: red; font-size: 0.9em; margin-bottom: 5px; padding-left: 15px;">
+            {% for error in field.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {{ form.first_name }}
+      {{ form.username }}
+      {{ form.email }}
+      {{ form.phone }}
+      {{ form.password }}
+      {{ form.password_confirm }}
+      {{ form.register_as }}
+
+      <button type="submit" class="register-btn">Register</button>
+
+      <p class="alternate-text">Sudah punya akun? <a href="{% url 'toko:login' %}">Login</a></p>
+
+      <div class="separator">OR</div>
+
+      <p class="policy-text">
+        Dengan melanjutkan, Anda menyetujui Persyaratan Penjualan, Persyaratan Layanan, dan <strong>Kebijakan Privasi</strong> yang diperbarui.
+      </p>
+
+      <button type="button" class="google-btn" aria-label="Continue with Google">
+        <span class="google-icon">G</span> Continue with Google
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>

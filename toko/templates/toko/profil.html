@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil Saya - Fortuna Batik{% endblock %}
+
+{% block content %}
+<main class="container">
+  <h1 class="section-title">Profil Saya</h1>
+  <p style="text-align: center; margin-top: -20px; margin-bottom: 40px;">
+    Kelola informasi akun dan lihat riwayat pesanan Anda.
+  </p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message-success" style="padding: 15px; background-color: #e8f5e9; color: #1b5e20; border-radius: 5px; margin-bottom: 20px; font-weight: 500; text-align: center;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="profile-layout">
+
+    <div class="profile-form">
+  <h3>Ubah Data Akun</h3>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% if user_form.errors or profile_form.errors %}
+      <div class="form-errors" style="color: red; margin-bottom: 15px; font-size: 0.9em;">
+        <p>Harap perbaiki kesalahan di bawah ini:</p>
+        {{ user_form.errors }}
+        {{ profile_form.errors }}
+      </div>
+    {% endif %}
+
+    <p>
+      <label for="username">Username</label>
+      <input type="text" id="username" value="{{ user.username }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
+      <small style="color: #777; font-size: 0.8em;">Username tidak dapat diubah.</small>
+    </p>
+
+    <p>
+      <label for="{{ user_form.first_name.id_for_label }}">Nama Lengkap:</label>
+      {{ user_form.first_name }}
+    </p>
+
+    <p>
+      <label for="{{ user_form.email.id_for_label }}">Email address:</label>
+      {{ user_form.email }}
+    </p>
+
+    <p>
+      <label for="{{ profile_form.telepon.id_for_label }}">Nomor Telepon:</label>
+      {{ profile_form.telepon }}
+    </p>
+
+    <p>
+      <label for="role">Peran Anda</label>
+      <input type="text" id="role" value="{{ user.profile.role|capfirst }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
+    </p>
+
+    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+  </form>
+
+  <a href="{% url 'toko:ubah_password' %}" class="change-password-link">Ubah Kata Sandi</a>
+</div>
+
+    <div class="order-history">
+      <h3>Riwayat Pesanan</h3>
+      <div class="order-list">
+        {% if orders %}
+          {% for order in orders %}
+            <div class="order-card">
+              <div class="order-card-header">
+                <div>
+                  <strong>Pesanan #{{ order.id }}</strong>
+                  <small>{{ order.dibuat|date:"d M Y" }}</small>
+                </div>
+                {% if order.lunas %}
+                  <span class="status-lunas">Lunas</span>
+                {% else %}
+                  <span class="status-pending">Pending</span>
+                {% endif %}
+              </div>
+              <div class="order-card-body">
+                <p>Total: <strong>Rp {{ order.total_bayar|floatformat:0 }}</strong></p>
+                <p>Kepada: {{ order.nama_depan }} {{ order.nama_belakang }}</p>
+                <p>Alamat: {{ order.alamat }}, {{ order.kota }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>Anda belum memiliki riwayat pesanan.</p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</main>
+{% endblock %}

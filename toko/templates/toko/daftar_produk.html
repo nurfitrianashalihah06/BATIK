@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Produk Kami - Fortuna Batik{% endblock %}
+
+{% block content %}
+
+<main class="container">
+  <h1 class="section-title">Produk Kami</h1>
+
+  <div class="product-grid">
+
+    {% for produk in semua_produk %}
+    <div class="product-card">
+
+      {# --- BAGIAN GAMBAR PRODUK --- #}
+      {% if produk.gambar %}
+        <img src="{{ produk.gambar.url }}" alt="{{ produk.nama }}" class="product-image" />
+      {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="{{ produk.nama }}" class="product-image" />
+      {% endif %}
+
+      {# --- BAGIAN INFO PRODUK --- #}
+      <div class="product-name">{{ produk.nama }}</div>
+
+      {# --- INI CARA YANG BENAR UNTUK MENAMPILKAN BANYAK KATEGORI --- #}
+      <div class="product-subtitle">
+        {% for kat in produk.kategori.all %}
+          {{ kat.nama }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="product-price">Rp {{ produk.harga|floatformat:0 }}</div>
+      <a href="{% url 'toko:detail_produk' produk.slug %}" class="btn-order btn-pesan-sekarang">
+    Pesan Sekarang
+</a>
+
+    </div>
+    {% endfor %}
+
+  </div>
+</main>
+{%endblock%}
