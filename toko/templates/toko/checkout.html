@@ -1,30 +1,182 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+{% load l10n %}
 
 {% block title %}Checkout - Fortuna Batik{% endblock %}
 
 {% block content %}
-<main class="container">
-  <h1 class="section-title">Checkout</h1>
-  <p>Silakan isi detail pengiriman Anda.</p>
 
-  <div class="checkout-layout">
-    <div class="checkout-form">
-      <h3>Informasi Pengiriman</h3>
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-checkout">Buat Pesanan</button>
-      </form>
+<div class="checkout-container">
+
+    <div class="kolom-form">
+        <h2 class="page-title">Checkout Pengiriman</h2>
+        <p class="page-subtitle">Lengkapi data diri Anda untuk menyelesaikan pesanan.</p>
+
+        <form method="POST" id="checkout-form">
+            {% csrf_token %}
+
+            <h4 style="color: #8b0000; margin-bottom: 15px;">Alamat Tujuan</h4>
+
+            <div class="form-row-split">
+                <div class="form-group-half">
+                    <label>Nama Depan</label>
+                    {{ form.nama_depan }}
+                </div>
+                <div class="form-group-half">
+                    <label>Nama Belakang</label>
+                    {{ form.nama_belakang }}
+                </div>
+            </div>
+
+            <div class="form-row-split">
+                <div class="form-group-half">
+                    <label>Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group-half">
+                    <label>Nomor Telepon</label>
+                    {{ form.telepon }}
+                </div>
+            </div>
+
+            <div class="form-group-full">
+                <label>Alamat Lengkap (Jalan, RT/RW)</label>
+                {{ form.alamat }}
+            </div>
+
+            <div class="form-row-split">
+                <div class="form-group-half" style="flex: 2;"> <label>Kota / Kabupaten</label>
+                    {{ form.kota }}
+                </div>
+                <div class="form-group-half" style="flex: 1;">
+                    <label>Kode Pos</label>
+                    {{ form.kode_pos }}
+                </div>
+            </div>
+
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+
+            <h4 style="color: #8b0000; margin-bottom: 15px;">Metode Pengiriman</h4>
+            <div class="form-group-full">
+                <label>Pilih Wilayah / Kurir</label>
+                <select id="select-wilayah" required>
+                    <option value="0" data-jarak="0">-- Pilih Tujuan --</option>
+                    <optgroup label="Kurir Toko (Lokal)">
+                        <option value="10000" data-jarak="Dekat">Nguntoronadi / Baturetno (Rp 5.000)</option>
+                        <option value="15000" data-jarak="Sedang">Wonogiri Kota / Selogiri (Rp 15.000)</option>
+                        <option value="25000" data-jarak="Jauh">Ngadirojo (Rp 10.000)</option>
+                        <option value="25000" data-jarak="Jauh">Jatisrono / Purwantoro (Rp 15.000)</option>
+                    </optgroup>
+                    <optgroup label="Ekspedisi (JNE / J&T)">
+                        <option value="40000" data-jarak="Reguler">Jawa Tengah (Rp 40.000)</option>
+                        <option value="50000" data-jarak="Reguler">Luar Jateng (Rp 50.000)</option>
+                    </optgroup>
+                </select>
+                <small id="info-jarak" style="color: green; font-weight: bold; display: block; margin-top: 5px;"></small>
+            </div>
+
+            <input type="hidden" name="input_ongkir" id="input_ongkir" value="0">
+
+            <button type="submit" class="btn-pesan">Buat Pesanan Sekarang</button>
+        </form>
     </div>
 
-    <div class="checkout-summary">
-      <h3>Ringkasan Belanja</h3>
-      <div class="summary-row">
-        <span>Total Harga</span>
-        <span>Rp {{ total_harga|floatformat:0 }}</span>
-      </div>
+    <div class="kolom-ringkasan">
+        <h4 style="margin-top: 0; font-family: 'Georgia', serif;">Ringkasan Belanja</h4>
+        <hr style="margin: 15px 0;">
+
+        <div style="margin-bottom: 20px; max-height: 300px; overflow-y: auto;">
+            {% for item in daftar_belanja %}
+            <div style="display: flex; margin-bottom: 15px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
+                <div style="width: 60px; height: 60px; margin-right: 15px;">
+                    {% if item.produk.gambar %}
+                        <img src="{{ item.produk.gambar.url }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/60" style="width: 100%;">
+                    {% endif %}
+                </div>
+                <div>
+                    <div style="font-weight: bold; font-size: 14px;">{{ item.produk.nama }}</div>
+                    <div style="font-size: 12px; color: #666;">{{ item.jumlah }} x Rp {{ item.harga|floatformat:0 }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span style="color: #666;">Subtotal</span>
+            <span style="font-weight: bold;">Rp {{ total_harga|floatformat:0 }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <span style="color: #666;">Ongkir</span>
+            <span style="font-weight: bold; color: green;" id="tampilan-ongkir">Rp 0</span>
+        </div>
+
+        <hr style="margin: 15px 0;">
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: bold; font-size: 16px;">Total Bayar</span>
+            <span style="font-weight: bold; font-size: 20px; color: #8b0000;" id="tampilan-total">
+                Rp {{ total_harga|floatformat:0 }}
+            </span>
+        </div>
     </div>
-  </div>
-</main>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectWilayah = document.getElementById('select-wilayah');
+        const infoJarak = document.getElementById('info-jarak');
+        const inputOngkir = document.getElementById('input_ongkir');
+        const tampilanOngkir = document.getElementById('tampilan-ongkir');
+        const tampilanTotal = document.getElementById('tampilan-total');
+
+        // === PERBAIKAN UTAMA DISINI ===
+        // Kita paksa Django kirim angka digit polos (240000) tanpa titik
+        const subtotal = parseInt("{{ total_harga|stringformat:'d' }}");
+
+        // Fungsi Format Rupiah
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(angka);
+        };
+
+        // Fungsi Update
+        function updateHarga() {
+            let ongkir = parseInt(selectWilayah.value) || 0;
+
+            // 1. Tampilkan Info di bawah Dropdown
+            if(ongkir > 0){
+                if(infoJarak) infoJarak.innerText = "Ongkir Ditambahkan: " + formatRupiah(ongkir);
+            } else {
+                if(infoJarak) infoJarak.innerText = "";
+            }
+
+            // 2. Masukkan ke Input Hidden (Buat Database)
+            if(inputOngkir) inputOngkir.value = ongkir;
+
+            // 3. Tampilkan di Ringkasan Kanan
+            if(tampilanOngkir) {
+                tampilanOngkir.innerText = formatRupiah(ongkir);
+                tampilanOngkir.style.color = "green";
+            }
+
+            // 4. Hitung Total Akhir
+            let totalAkhir = subtotal + ongkir;
+            if(tampilanTotal) {
+                tampilanTotal.innerText = formatRupiah(totalAkhir);
+            }
+        }
+
+        // Pasang Event Listener
+        if(selectWilayah) {
+            selectWilayah.addEventListener('change', updateHarga);
+        }
+    });
+</script>
 {% endblock %}

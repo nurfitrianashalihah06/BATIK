@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",  # Harus di atas admin
+    "unfold.contrib.filters",  # Opsional, untuk filter yang lebih baik
+    "unfold.contrib.forms",    # Opsional, untuk form yang lebih baik
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'toko',
+    'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [
@@ -104,15 +109,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'id'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 
+USE_THOUSAND_SEPARATOR = True
+NUMBER_GROUPING = 3
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -141,3 +148,11 @@ AUTHENTICATION_BACKENDS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# === KONFIGURASI MIDTRANS ===
+MIDTRANS_SERVER_KEY = 'GANTI_KEY_INI'
+
+# Tambahkan "SB-" di depan
+MIDTRANS_CLIENT_KEY = 'GANTI_KEY_INI'
+
+MIDTRANS_IS_PRODUCTION = False

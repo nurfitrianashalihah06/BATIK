@@ -7,7 +7,7 @@
 <main class="container">
   <h1 class="section-title">Keranjang Belanja Anda</h1>
 
-{% if messages %}
+  {% if messages %}
     {% for message in messages %}
       <div class="message-success" style="padding: 15px; background-color: #e8f5e9; color: #1b5e20; border-radius: 5px; margin-bottom: 20px; font-weight: 500; text-align: center;">
         {{ message }}
@@ -58,8 +58,32 @@
         <span>Rp {{ total_harga_keranjang|floatformat:0 }}</span>
       </div>
       <a href="{% url 'toko:checkout' %}" class="btn-checkout">Lanjut ke Checkout</a>
-    </div>
+
+      {% if rekomendasi_cart %}
+      <div class="cart-recommendation">
+          <h3 class="rec-title">Mungkin Kamu Juga Suka</h3>
+
+          <div class="rec-grid-cart">
+              {% for item in rekomendasi_cart %}
+              <a href="{{ item.get_absolute_url }}" class="rec-card-cart">
+                  {% if item.gambar %}
+                      <img src="{{ item.gambar.url }}" class="rec-img-cart" alt="{{ item.nama }}">
+                  {% else %}
+                      <img src="https://via.placeholder.com/60" class="rec-img-cart">
+                  {% endif %}
+
+                  <div class="rec-info-cart">
+                      <div class="rec-name-cart">{{ item.nama }}</div>
+                      <div class="rec-price-cart">Rp {{ item.harga|floatformat:0 }}</div>
+                  </div>
+              </a>
+              {% endfor %}
+          </div>
+      </div>
+      {% endif %}
+      </div>
     {% endif %}
   </div>
+
 </main>
 {% endblock %}

@@ -24,10 +24,9 @@ urlpatterns = [
     # ✅ TAMBAHKAN BARIS INI UNTUK LOGOUT
     path('logout/', views.logout_view, name='logout'),
 
-    path('keranjang/tambah/<int:produk_id>/', views.tambah_ke_keranjang, name='tambah_ke_keranjang'),
+    path('tambah-keranjang/<int:produk_id>/', views.tambah_ke_keranjang, name='tambah_ke_keranjang'),
 
     path('keranjang/', views.lihat_keranjang, name='lihat_keranjang'),
-
     path('checkout/', views.checkout_view, name='checkout'),
 
     path('pesanan-berhasil/<int:order_id>/', views.pesanan_berhasil, name='pesanan_berhasil'),
@@ -39,4 +38,7 @@ urlpatterns = [
     path('profil/ubah-password/', views.ubah_password_view, name='ubah_password'),
 
     path('keranjang/hapus/<int:produk_id>/', views.hapus_dari_keranjang, name='hapus_dari_keranjang'),
+
+# toko/urls.py
+path('products/<slug:slug>/', views.detail_produk, name='detail_produk'),
 ]

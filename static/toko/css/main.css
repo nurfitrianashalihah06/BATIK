@@ -54,9 +54,32 @@ header nav ul {
     gap: 30px;
     align-items: center;
 }
+/* Style Default Link Navigasi */
+header nav ul li a {
+    color: #555;
+    text-decoration: none;
+    padding: 10px 15px;      /* Memberi ruang agar background terlihat bagus */
+    border-radius: 20px;     /* Membuat sudut melengkung */
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/* Style Hover (Saat mouse diarahkan) */
+header nav ul li a:hover {
+    color: #b38f3a;          /* Warna oranye sesuai logo */
+    background-color: #fffaf5;
+}
+
+/* === STYLE MENU AKTIF (Sesuai Gambar) === */
+/* Menargetkan link <a> di dalam <li class="active"> */
+header nav ul li.active a {
+    background-color: #FFF5F0;  /* Background Krem Muda */
+    color: #b38f3a;             /* Teks Oranye (Samakan dengan warna Logo) */
+    font-weight: bold;
+}
 /* Style untuk "Pesan Sekarang" di nav (saat belum login) */
 header nav ul li.highlight a {
-    background-color: white;
+    background-color: #ffffff;
     color: #851e00;
     padding: 8px 18px;
     border-radius: 20px;
@@ -87,7 +110,7 @@ header nav ul li.highlight a {
 
 /* Style Tampilan JIKA SUDAH LOGIN */
 .logout-btn {
-    color: #c44705;
+    color: #851e00;
     padding: 10px 24px;
     font-weight: 600;
     text-decoration: none;
@@ -100,9 +123,19 @@ header nav ul li.highlight a {
     font-weight: 600;
     color: #333;
     text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 .user-profile-link:hover {
-    color: #b86619;
+    color: #b38f3a;
+    background-color: #fffaf5;
+}
+.user-profile-link.active{
+    background-color: #fff5f0;
+    color: #851e00;
+    font-weight: bold;
 }
 
 main {
@@ -152,7 +185,7 @@ main {
   color: #555;
 }
 .hero .text-box .btn-primary {
-    background-color: #c44705;
+    background-color: #670a03;
     color: white;
     border: none;
     padding: 12px 28px;
@@ -164,7 +197,7 @@ main {
     margin-top: 10px; /* Beri jarak dari teks di atasnya */
 }
 .hero .text-box .btn-primary:hover {
-    background-color: #e69561;
+    background-color: #b38f3a;
 }
 
 /* Introduction Section */
@@ -199,58 +232,90 @@ main {
   margin-bottom: 30px;
 }
 .product-list {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  display: flex !important;           /* Wajib Flexbox */
+  flex-wrap: wrap !important;         /* Biar bisa turun baris */
+  justify-content: center;            /* Posisi tengah */
+  gap: 20px;                          /* Jarak antar kartu */
   max-width: 1140px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 50px auto;
+
+  /* KUNCI: Memaksa semua kolom punya tinggi yang sama rata */
+  align-items: stretch !important;
 }
+
+/* --- 2. KARTU PRODUK --- */
 .product-list .product-card {
+  /* Layout Flexbox Vertikal (Atas ke Bawah) */
+  display: flex !important;
+  flex-direction: column !important;
+
+  /* KUNCI: Paksa kartu memenuhi tinggi slot flex-nya */
+  height: auto !important;
+  min-height: 100% !important;
+
   background: white;
   border-radius: 6px;
   box-shadow: 0 0 8px rgb(0 0 0 / 0.05);
   width: 220px;
-  padding: 12px 12px 20px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  cursor: pointer;
+  padding: 12px;                      /* Padding keliling */
+  box-sizing: border-box;             /* Pastikan padding tidak nambah lebar */
   transition: box-shadow 0.25s ease;
 }
+
 .product-list .product-card:hover {
   box-shadow: 0 8px 16px rgb(0 0 0 / 0.1);
 }
+
+/* --- 3. GAMBAR --- */
 .product-list .product-card img {
-  border-radius: 6px;
   width: 100%;
-  height: 120px;
-  object-fit: cover;
+  height: 150px;       /* Tinggi gambar HARUS diset fix biar rapi */
+  object-fit: cover;   /* Agar gambar tidak gepeng */
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
+
+/* --- 4. JUDUL & SUBTITLE --- */
 .product-list .product-card .title {
   font-weight: 700;
   font-size: 0.95rem;
-  text-align: left;
+  margin-bottom: 5px;
+  line-height: 1.3;    /* Jarak antar baris teks judul */
 }
+
 .product-list .product-card .subtitle {
   font-size: 0.75rem;
   color: #777;
-  text-align: left;
   font-style: italic;
+  margin-bottom: 15px;
+
+  /* OPTIONAL: Biar subtitle ngisi ruang kosong (menekan tombol ke bawah) */
+  flex-grow: 1;
 }
+
+/* --- 5. TOMBOL (Lihat Detail) --- */
 .product-list .product-card .btn-link {
-  font-size: 0.8rem;
-  padding: 6px 12px;
+  /* KUNCI MAGIC: Dorong tombol ke paling bawah */
+  margin-top: auto !important;
+  align-self: center !important;
+
+  /* Style Tombol */
+  display: block;      /* Ubah jadi block biar gampang diatur */
+  width: fit-content;  /* Lebar menyesuaikan teks */
+  padding: 8px 24px;
   background: #f1a57b;
   color: #851e00;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  align-self: flex-start;
+  border-radius: 20px;
+  text-decoration: none;
   font-weight: 600;
-  margin-top: 8px;
+  font-size: 0.8rem;
   text-align: center;
-  display: inline-block; /* Agar bisa pakai padding */
+  transition: all 0.3s ease;
+}
+.product-list .product-card .btn-link:hover {
+  background: #851e00;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -460,6 +525,25 @@ main {
 }
 .btn-pesan-sekarang:hover {
   opacity: 0.85;
+}
+.product-card {
+    display: flex;            /* Aktifkan Flexbox */
+    flex-direction: column;   /* Susun elemen dari atas ke bawah */
+    height: 100%;             /* Paksa kartu mengisi tinggi penuh grid */
+    /* ... style border/shadow yang sudah ada biarkan saja ... */
+}
+
+/* 2. Opsional: Pastikan gambar tidak merusak rasio */
+.product-card img {
+    object-fit: cover;        /* Agar gambar tetap rapi */
+    /* width: 100%; sudah default biasanya */
+}
+
+/* 3. KUNCI RAHASIA: Dorong Tombol ke Paling Bawah */
+.btn-pesan-sekarang {
+    margin-top: auto;         /* Perintah: "Isi ruang kosong di atasku" */
+    display: block;           /* Pastikan tombol bersifat blok */
+    text-align: center;       /* Teks di tengah */
 }
 
 
@@ -770,7 +854,7 @@ footer .social-icons-footer a {
 .product-detail-price {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #b86619;
+  color: #8b0000;
   margin-bottom: 24px;
 }
 .product-description {
@@ -829,7 +913,7 @@ footer .social-icons-footer a {
   padding: 15px;
   font-size: 1rem;
   font-weight: 600;
-  background-color: #3d0000;
+  background-color: #670a03;
   color: white;
   border: none;
   border-radius: 25px;
@@ -837,7 +921,7 @@ footer .social-icons-footer a {
   transition: background-color 0.3s ease;
 }
 .btn-add-to-cart:hover {
-  background-color: #5e1e1e;
+  background-color: #9b3600;
 }
 .btn-add-to-cart i {
   margin-right: 8px;
@@ -925,11 +1009,11 @@ footer .social-icons-footer a {
   margin-bottom: 5px;
 }
 .cart-item-name:hover {
-  color: #c44705;
+  color: #670a03;
 }
 .cart-item-remove {
   font-size: 0.8rem;
-  color: #c44705;
+  color: #851e00;
   text-decoration: none;
 }
 .cart-summary h3 {
@@ -950,48 +1034,202 @@ footer .social-icons-footer a {
   padding: 12px;
   font-size: 1rem;
   font-weight: 600;
-  background-color: #c44705;
+  background-color: #670a03;
   color: white;
   border: none;
   border-radius: 20px;
   cursor: pointer;
 }
+.btn-checkout:hover {
+  background-color: #9b3600;
+}
 
+.cart-recommendation {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px dashed #ddd;
+    width: 100%;
+}
+
+.rec-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: left;
+    border-left: 4px solid #8b0000;
+    padding-left: 10px;
+}
+
+.rec-grid-cart {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.rec-card-cart {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+}
+
+.rec-card-cart:hover {
+    transform: translateX(3px);
+    border-color: #8b0000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.rec-img-cart {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.rec-info-cart {
+    padding: 0;
+    flex: 1;
+}
+
+.rec-name-cart {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.2;
+}
+
+.rec-price-cart {
+    font-size: 13px;
+    color: #8b0000;
+    font-weight: bold;
+}
 
 /* ================================= */
 /* STYLES UNTUK HALAMAN CHECKOUT    */
 /* ================================= */
 
-.checkout-layout {
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
+.checkout-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    align-items: flex-start; /* Supaya ringkasan tidak melar ke bawah */
 }
-.checkout-form {
-  flex: 2;
+
+.kolom-form {
+    flex: 2; /* Lebar 2/3 layar */
+    min-width: 300px;
 }
-.checkout-summary {
-  flex: 1;
-  background: #f9f9f9;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 20px;
+
+.kolom-ringkasan {
+    flex: 1; /* Lebar 1/3 layar */
+    min-width: 300px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 25px;
 }
-.checkout-form form p {
-  margin-bottom: 15px;
+
+/* Judul Halaman */
+.page-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 5px;
 }
-.checkout-form form input,
-.checkout-form form select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+
+.page-subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
 }
-.checkout-form form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
+
+/* Baris Form (Supaya Nama Depan & Belakang SEJAJAR) */
+.form-row-split {
+    display: flex;
+    gap: 20px; /* Jarak antar input */
+    margin-bottom: 15px;
+}
+
+.form-group-half {
+    flex: 1; /* Bagi rata 50:50 */
+    width: 100%;
+}
+
+.form-group-full {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Styling Input & Label (Khusus di dalam Checkout) */
+.checkout-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #444;
+}
+
+.checkout-container input[type="text"],
+.checkout-container input[type="email"],
+.checkout-container input[type="number"],
+.checkout-container select,
+.checkout-container textarea {
+    width: 100%; /* Paksa lebar penuh mengikuti wadahnya */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Agar padding tidak bikin melebar */
+    font-size: 14px;
+}
+
+.checkout-container input:focus,
+.checkout-container select:focus {
+    border-color: #8b0000;
+    outline: none;
+}
+
+/* Tombol Merah Marun */
+.btn-pesan {
+    background-color: #670a03;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.btn-pesan:hover {
+    background-color: #9b3600;
+}
+
+/* Responsif HP (Turun ke bawah kalau layar kecil) */
+@media (max-width: 768px) {
+    .checkout-container { flex-direction: column; }
+    .form-row-split { flex-direction: column; gap: 10px; }
 }
 
 /* static/toko/css/main.css */
@@ -1040,9 +1278,10 @@ footer .social-icons-footer a {
 }
 .contact-info li i {
   margin-right: 10px;
-  color: #c44705;
+  color: #670a03;
   width: 20px;
   text-align: center;
+  display: none;
 }
 .contact-form form p {
   margin-bottom: 15px;
@@ -1063,7 +1302,7 @@ footer .social-icons-footer a {
   display: none; /* Sembunyikan label, kita pakai placeholder */
 }
 .contact-form .btn-primary {
-  background-color: #c44705;
+  background-color: #670a03;
   color: white;
   padding: 12px 30px;
   border: none;
@@ -1071,6 +1310,9 @@ footer .social-icons-footer a {
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
+}
+.btn-primary:hover {
+    background-color: #9b3600;
 }
 .message-success {
   padding: 15px;
@@ -1118,7 +1360,7 @@ footer .social-icons-footer a {
   font-weight: 600;
 }
 .profile-form .btn-primary {
-  background-color: #c44705;
+  background-color: #670a03;
   color: white;
   padding: 12px 30px;
   border: none;
@@ -1131,7 +1373,7 @@ footer .social-icons-footer a {
   display: inline-block;
   margin-top: 15px;
   font-size: 0.9rem;
-  color: #c44705;
+  color: #851e00;
   font-weight: 600;
 }
 .order-list {
@@ -1243,4 +1485,113 @@ footer .social-icons-footer a {
 }
 .btn-back-simple:hover {
   text-decoration: underline;
+}
+
+/* ================================= */
+/* STYLES FOR RATING               */
+/* ================================= */
+
+/* Layout Form Ulasan */
+.form-group label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* CSS RATING BINTANG */
+.rating-css {
+    margin-bottom: 10px;
+    min-height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    direction: ltr;
+
+}
+.rating-css input {
+    display: none; /* Sembunyikan radio button asli */
+}
+.rating-css label {
+    font-size: 20px; /* Ukuran Bintang */
+    color: #ddd;
+    cursor: pointer;
+    float: right; /* PENTING: Float right agar urutan 5-4-3-2-1 */
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 0 2px;
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+    border-radius: 5px;
+    padding: 5px;
+    direction: rtl;
+}
+.rating-css label:before {
+    content: '\2605'; /* Simbol Bintang */
+    display: inline-block;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, #ddd, #bbb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+/* Efek Hover & Checked */
+.rating-css input:checked ~ label,
+.rating-css label:hover,
+.rating-css label:hover ~ label {
+    color: #ffc700; /* Warna Kuning Emas */
+    transform: scale(1.1) rotate(5deg);
+    text-shadow: 0 0 5px rgba(255, 199, 0, 0.8);
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    box-shadow: 0 0 10px rgba(255, 199, 0, 0.5);
+}
+.rating-css input:checked ~ label:before,
+.rating-css label:hover:before,
+.rating-css label:hover ~ label:before {
+    background: linear-gradient(45deg, #ffc700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: twinkle 1s ease-in-out infinite alternate;
+}
+/* Animasi Twinkle */
+@keyframes twinkle {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* Rating Display untuk rata-rata dan ulasan */
+.star-display, .star-display-small {
+    color: #ffc700;
+    font-size: 1.2rem;
+}
+.star-display-small {
+    font-size: 1rem;
+}
+.star-display i, .star-display-small i {
+    transition: all 0.2s ease;
+}
+.star-display i:hover, .star-display-small i:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 5px rgba(255, 199, 0, 0.7);
+}
+
+/* Tombol Kirim */
+.btn-ulasan {
+    background-color: #8b0000;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.btn-ulasan:hover {
+    background-color: #a00000;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .rating-css {
+        justify-content: center;
+    }
 }

@@ -3,6 +3,7 @@ from django import forms
 from .models import Order, ContactMessage
 from django.contrib.auth.models import User
 from .models import Profile
+from .models import Ulasan
 
 # ✅ TAMBAHKAN FORM INI
 class OrderForm(forms.ModelForm):
@@ -183,3 +184,8 @@ class ProfileUpdateForm(forms.ModelForm):
         widgets = {
             'telepon': forms.TextInput(attrs={'placeholder': 'Masukkan Nomor Telepon Anda'}),
         }
+
+class UlasanForm(forms.ModelForm):
+    class Meta:
+        model = Ulasan
+        fields = ['rating', 'komentar']

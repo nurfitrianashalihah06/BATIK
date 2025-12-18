@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="hero">
-  <img src="{% static 'toko/image/batik1.jpg' %}" alt="Batik Art Work" />
+  <img src="{% static 'toko/image/batik49.jpg' %}" alt="Batik Art Work" />
 
   <div class="text-box">
     <h1>FORTUNA BATIK WONOGIREN</h1>
@@ -28,25 +28,25 @@
   <div class="product-list">
     {# Contoh produk, Anda bisa loop dari context Django di sini #}
     <div class="product-card">
-      <img src="{% static 'toko/image/batik4.jpg' %}" alt="Batik Remekan Wonogiren Motif 1">
+      <img src="{% static 'toko/image/batik4-fix.jpg' %}" alt="Batik Remekan Wonogiren Motif 1">
       <div class="title">Batik Remekan Wonogiren Motif 1</div>
       <div class="subtitle">Batik Remekan · Warna Alam</div>
       <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
     </div>
     <div class="product-card">
-      <img src="{% static 'toko/image/batik5.jpg' %}" alt="Batik Lawasan Motif 2" />
+      <img src="{% static 'toko/image/batik21-fix.jpg' %}" alt="Batik Lawasan Motif 2" />
       <div class="title">Batik Lawasan Motif 3</div>
       <div class="subtitle">Batik Tulis · Batik Remekan</div>
       <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
     </div>
     <div class="product-card">
-      <img src="{% static 'toko/image/batik6.jpg' %}" alt="Batik Remekan Wonogiren Motif 3" />
+      <img src="{% static 'toko/image/batik6-fix.jpg' %}" alt="Batik Remekan Wonogiren Motif 3" />
       <div class="title">Batik Remekan Wonogiren Motif 2</div>
       <div class="subtitle">Batik Remekan · Warna Coklat</div>
       <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
     </div>
     <div class="product-card">
-      <img src="{% static 'toko/image/batik7.jpg' %}" alt="Batik Kawung Motif 2" />
+      <img src="{% static 'toko/image/batik7-fix.jpg' %}" alt="Batik Kawung Motif 2" />
       <div class="title">Batik Kawung Motif 2</div>
       <div class="subtitle">Batik Indigo · Batik Remekan</div>
       <a href="{% url 'toko:daftar_produk' %}" class="btn-link">Lihat Detail</a>
@@ -58,26 +58,23 @@
 <section class="follow-section">
   <div class="follow-text">
     <h3>Follow us</h3>
-    <p>@fortunabatik<br />
-      Ikuti kami di media sosial untuk mendapatkan kabar terbaru, promosi, dan penawaran menarik. Jangan sampai ketinggalan!
+    <p>Ikuti kami di media sosial untuk mendapatkan kabar terbaru, promosi, dan penawaran menarik. Jangan sampai ketinggalan!<br />
+      @fortuna_batik
     </p>
-    <div class="social-icons">
-      <a href="#" aria-label="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" aria-label="Twitter" class="twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" aria-label="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+    <div class="social-icons"; class="social_links">
+      <a href="https://www.instagram.com/fortuna_batik/" aria-label="Instagram" class="instagram"><i class="fab fa-instagram" target="_blank"></i></a>
     </div>
   </div>
   <div class="instagram-grid">
-    <img src="{% static 'toko/image/batik8.jpg' %}" alt="Batik pattern 1" />
-    <img src="{% static 'toko/image/batik9.jpg' %}" alt="Batik pattern 2" />
-    <img src="{% static 'toko/image/batik10.jpg' %}" alt="Batik pattern 3" />
-    <img src="{% static 'toko/image/batik11.jpg' %}" alt="Batik pattern 4" />
-    <img src="{% static 'toko/image/batik12.jpg' %}" alt="Batik pattern 5" />
-    <img src="{% static 'toko/image/batik13.jpg' %}" alt="Batik pattern 6" />
-    <img src="{% static 'toko/image/batik14.jpg' %}" alt="Batik pattern 7" />
-    <img src="{% static 'toko/image/batik15.jpg' %}" alt="Batik pattern 8" />
-    <img src="{% static 'toko/image/batik17.jpg' %}" alt="Batik pattern 9" />
+    <img src="{% static 'toko/image/batik32.jpg' %}" alt="Batik pattern 1" />
+    <img src="{% static 'toko/image/batik33.jpg' %}" alt="Batik pattern 2" />
+    <img src="{% static 'toko/image/batik34.jpg' %}" alt="Batik pattern 3" />
+    <img src="{% static 'toko/image/batik35.jpg' %}" alt="Batik pattern 4" />
+    <img src="{% static 'toko/image/batik36.jpg' %}" alt="Batik pattern 5" />
+    <img src="{% static 'toko/image/batik37.jpg' %}" alt="Batik pattern 6" />
+    <img src="{% static 'toko/image/batik38.jpg' %}" alt="Batik pattern 7" />
+    <img src="{% static 'toko/image/batik39.jpg' %}" alt="Batik pattern 8" />
+    <img src="{% static 'toko/image/batik40.jpg' %}" alt="Batik pattern 9" />
   </div>
 </section>
 {% endblock %}

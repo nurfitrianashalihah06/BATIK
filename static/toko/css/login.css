@@ -21,7 +21,7 @@ body {
 }
   .image-left {
   flex-basis: 48%;
-  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+  background: url('/static/toko/image/batik49.jpg') center center / cover no-repeat;
 }
 .form-right {
   flex-basis: 55%;
@@ -35,10 +35,12 @@ body {
   top: 18px;
   right: 18px;
   font-size: 24px;
-  color: #222;
+  color: #555;
   cursor: pointer;
   user-select: none;
   font-weight: bold;
+  background: none;
+  border: none;
 }
 h1 {
   font-size: 1.8rem;
@@ -66,7 +68,7 @@ input {
 input::placeholder { color: #bbb; }
 input:focus { background-color: #e8e8e8; }
 button.login-btn {
-  background-color: #c44705;
+  background-color: #670a03;
   color: white;
   font-size: 1.1rem;
   font-weight: 600;
@@ -84,7 +86,7 @@ button.login-btn:hover { background-color: #9b3600; }
   color: #555;
 }
 .alternate-text a {
-  color: #c44705;
+  color: #670a03;
   font-weight: 600;
   text-decoration: none;
   margin-left: 6px;
@@ -119,7 +121,7 @@ button.login-btn:hover { background-color: #9b3600; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c44705;
+  color: #670a03;
   font-weight: 600;
   font-size: 1.05rem;
   border: none;
@@ -139,7 +141,7 @@ button.login-btn:hover { background-color: #9b3600; }
   }
    .image-left {
   flex-basis: 48%;
-  background: url('/static/toko/image/batik1.jpg') center center / cover no-repeat;
+  background: url('/static/toko/image/batik49.jpg') center center / cover no-repeat;
 }
   .form-right {
     flex-basis: auto;

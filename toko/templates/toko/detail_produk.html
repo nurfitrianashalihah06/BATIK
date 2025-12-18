@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+{% load l10n %}
 
 {% block title %}{{ produk.nama }} - Fortuna Batik{% endblock %}
 
 {% block content %}
 <main class="container">
-<a href="{% url 'toko:daftar_produk' %}" class="btn-back-simple">
+
+  <a href="{% url 'toko:daftar_produk' %}" class="btn-back-simple">
     &larr; Kembali ke Daftar Produk
   </a>
+
   <div class="product-detail-layout">
 
-    <div class="product-image-gallery">
-  <div class="product-detail-layout">
-    
     <div class="product-image-gallery">
       {% if produk.gambar %}
         <img src="{{ produk.gambar.url }}" alt="{{ produk.nama }}" class="main-product-image" />
@@ -27,58 +28,239 @@
           <span>{{ kat.nama }}</span>{% if not forloop.last %},{% endif %}
         {% endfor %}
       </div>
+
       <h1 class="product-detail-name">{{ produk.nama }}</h1>
       <p class="product-detail-price">Rp {{ produk.harga|floatformat:0 }}</p>
-      
+
       <div class="product-description">
         <div class="product-description-safe">
-    {{ produk.deskripsi|safe }}
-</div>
+            {{ produk.deskripsi|safe }}
+        </div>
       </div>
 
       <form action="{% url 'toko:tambah_ke_keranjang' produk.id %}" method="post" class="product-actions">
-  {% csrf_token %}
-  <div class="quantity-selector">
-    <label for="quantity">Jumlah</label>
-    <div class="quantity-input">
-      <button type="button" class="quantity-btn minus">-</button>
-      <input type="number" id="quantity" name="quantity" value="1" min="1" style="width: 50px; text-align: center; border: none;">
-      <button type="button" class="quantity-btn plus">+</button>
-    </div>
-  </div>
-  <button type="submit" class="btn-add-to-cart">
-    <i class="fas fa-shopping-cart"></i> Masukkan ke Keranjang
-  </button>
-</form>
-    </div>
-
-  </div>
-
-  {% if produk_terkait %}
-  <div class="related-products">
-    <h2 class="section-title">Anda Mungkin Juga Suka</h2>
-    <div class="product-list">
-      {% for p in produk_terkait %}
-      <div class="product-card">
-        <a href="{% url 'toko:detail_produk' p.slug %}">
-          {% if p.gambar %}
-            <img src="{{ p.gambar.url }}" alt="{{ p.nama }}">
-          {% else %}
-            <img src="{% static 'images/placeholder.png' %}" alt="{{ p.nama }}">
-          {% endif %}
-          <div class="title">{{ p.nama }}</div>
-          <div class="subtitle">
-            {% for kat in p.kategori.all %}
-              {{ kat.nama }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
+          {% csrf_token %}
+          <div class="quantity-selector">
+            <label for="quantity">Jumlah</label>
+            <div class="quantity-input">
+              <button type="button" class="quantity-btn minus">-</button>
+              <input type="number" id="quantity" name="quantity" value="1" min="1" style="width: 50px; text-align: center; border: none;">
+              <button type="button" class="quantity-btn plus">+</button>
+            </div>
           </div>
-          <div class="price">Rp {{ p.harga|floatformat:0 }}</div>
-        </a>
-      </div>
-      {% endfor %}
+          <button type="submit" class="btn-add-to-cart">
+            <i class="fas fa-shopping-cart"></i> Masukkan ke Keranjang
+          </button>
+      </form>
     </div>
+
   </div>
+  {% if rekomendasi %}
+  <style>
+      .recommendation-section {
+          margin-top: 50px;
+          padding-top: 20px;
+          border-top: 2px solid #f0f0f0;
+      }
+      .section-title {
+          font-size: 24px;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 25px;
+          border-left: 5px solid #8b0000;
+          padding-left: 15px;
+          text-align: left;
+          display: block;
+          width: 100%;
+      }
+      .rec-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 20px;
+      }
+      .rec-card {
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.2s, box-shadow 0.2s;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+      }
+      .rec-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          border-color: #8b0000;
+      }
+      .rec-card-img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          background-color: #f8f8f8;
+      }
+      .rec-card-info {
+          padding: 12px;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+      }
+      .rec-name {
+          font-size: 14px;
+          font-weight: 600;
+          margin: 0 0 8px;
+          line-height: 1.4;
+          color: #333;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+      }
+      .rec-price {
+          font-size: 15px;
+          font-weight: bold;
+          color: #8b0000;
+          margin-top: auto;
+      }
+  </style>
+
+  <section class="recommendation-section">
+      <h3 class="section-title">Produk Pilihan Lainnya (Rekomendasi)</h3>
+      <div class="rec-grid">
+          {% for item in rekomendasi %}
+              <a href="{{ item.get_absolute_url }}" class="rec-card">
+                  {% if item.gambar %}
+                      <img src="{{ item.gambar.url }}" alt="{{ item.nama }}" class="rec-card-img">
+                  {% else %}
+                      <img src="https://via.placeholder.com/200x200?text=No+Image" alt="No Image" class="rec-card-img">
+                  {% endif %}
+                  <div class="rec-card-info">
+                      <div class="rec-name">{{ item.nama }}</div>
+                      <div class="rec-price">Rp {{ item.harga|floatformat:0 }}</div>
+                  </div>
+              </a>
+          {% endfor %}
+      </div>
+  </section>
   {% endif %}
+
+    <div class="row mt-5">
+      <div class="col-md-12">
+          <h3 style="font-weight: bold; color: #333; border-bottom: 2px solid #8b0000; display: inline-block; padding-bottom: 5px; margin-bottom: 30px;">
+              Ulasan Pembeli
+          </h3>
+      </div>
+
+      <div class="col-md-4 mb-4">
+          <div class="p-4 text-center" style="background: #f9f9f9; border-radius: 10px; border: 1px solid #eee;">
+              <h1 class="font-weight-bold" style="font-size: 3rem; color: #333; margin: 0;">{{ avg_rating }}</h1>
+              <div class="star-display" style="font-size: 1.2rem; margin-bottom: 10px;">
+                  {% for i in "12345" %}
+                      {% if forloop.counter <= avg_rating %}
+                          <i class="fas fa-star"></i>
+                      {% else %}
+                          <i class="far fa-star"></i>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              <p class="text-muted">{{ ulasan_list.count }} Ulasan Total</p>
+          </div>
+
+          {% if user.is_authenticated %}
+    <div class="mt-4">
+        <h5 class="font-weight-bold mb-3">Tulis Ulasan</h5>
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            <div class="row">
+                <!-- Kolom Kiri: Rating -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="d-block mb-2" style="font-weight: 500;">Beri Rating:</label>
+                        <div class="rating-css">
+                            <input type="radio" id="star5" name="rating" value="5" required />
+                            <label for="star5" title="Sempurna">5 stars</label>
+
+                            <input type="radio" id="star4" name="rating" value="4" />
+                            <label for="star4" title="Bagus">4 stars</label>
+
+                            <input type="radio" id="star3" name="rating" value="3" />
+                            <label for="star3" title="Cukup">3 stars</label>
+
+                            <input type="radio" id="star2" name="rating" value="2" />
+                            <label for="star2" title="Buruk">2 stars</label>
+
+                            <input type="radio" id="star1" name="rating" value="1" />
+                            <label for="star1" title="Sangat Buruk">1 star</label>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Textarea -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="d-block mb-2" style="font-weight: 500;">Tulis Ulasan:</label>
+                        <textarea name="komentar" class="form-control" rows="4"
+                            placeholder="Bagaimana kualitas bahannya? Ceritakan di sini..."
+                            style="font-size: 12px; padding: 15px; border-radius: 10px; background-color: #fcfcfc; width: 100%; height: 80px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-ulasan">
+                Kirim Ulasan
+            </button>
+        </form>
+    </div>
+{% else %}
+    <div class="alert alert-warning mt-3" style="font-size: 0.9rem;">
+        <i class="fas fa-lock"></i> Silakan <a href="{% url 'login' %}" class="font-weight-bold text-dark">Login</a> untuk memberi ulasan.
+    </div>
+{% endif %}
+      </div>
+
+      <div class="col-md-8">
+          {% for ulasan in ulasan_list %}
+              <div class="review-card">
+                  <div class="d-flex">
+                      <div class="review-avatar">
+                          {{ ulasan.user.username|make_list|first|upper }}
+                      </div>
+
+                      <div class="flex-grow-1">
+                          <div class="d-flex justify-content-between align-items-center mb-1">
+                              <h6 class="font-weight-bold mb-0 text-dark">{{ ulasan.user.username }}</h6>
+                              <small class="text-muted">{{ ulasan.dibuat|date:"d M Y" }}</small>
+                          </div>
+
+                          <div class="star-display-small">
+                              {% for i in "12345" %}
+                                  {% if forloop.counter <= ulasan.rating %}
+                                      <i class="fas fa-star"></i>
+                                  {% else %}
+                                      <i class="far fa-star"></i>
+                                  {% endif %}
+                              {% endfor %}
+                          </div>
+
+                          <p class="text-secondary mb-0" style="line-height: 1.5;">
+                              {{ ulasan.komentar|default:"-" }}
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          {% empty %}
+              <div class="text-center py-5">
+                  <img src="https://via.placeholder.com/100x100?text=Ulasan" style="opacity: 0.3; margin-bottom: 15px; border-radius: 50%;">
+                  <p class="text-muted">Belum ada ulasan. Jadilah yang pertama mereview produk ini!</p>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
 
 </main>
 {% endblock %}

@@ -1,58 +1,271 @@
+{% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pesanan Diterima - Fortuna Batik</title>
-  <link rel="stylesheet" href="{% static 'toko/css/pesanan.css' %}">
-</head>
-<body>
 
-  <div class="popup-wrapper" role="dialog" aria-modal="true" aria-labelledby="popup-header">
-    <div class="image-left" aria-hidden="true"></div>
+{% block content %}
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ client_key }}"></script>
 
-    <div class="content-right">
+<style>
+    /* Wrapper Utama agar posisi di tengah */
+    .payment-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh; /* Tinggi hampir layar penuh */
+        background-color: #f4f6f8;
+        padding: 20px;
+    }
 
-      <a href="{% url 'toko:homepage' %}" class="close-btn" aria-label="Close">&times;</a>
+    /* Kartu Putih Utama */
+    .payment-card {
+        display: flex;
+        width: 900px;
+        max-width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        overflow: hidden; /* Biar gambar gak keluar radius */
+        position: relative;
+    }
 
-      <h1 id="popup-header">Terima Kasih</h1>
-      <p class="description">Pesanan Anda #{{ order.id }} telah kami terima.</p>
+    /* BAGIAN KIRI: GAMBAR (35% Lebar) */
+    .card-image-left {
+        width: 40%;
+        background-image: url('{% static "toko/images/batik-pattern.jpg" %}'); /* Pastikan ada gambar default */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 400px;
+        position: relative;
+    }
 
-      <div class="instructions">
-        <h3>Instruksi Pembayaran</h3>
-        <p>Silakan lakukan transfer sejumlah <strong>Rp {{ order.total_bayar|floatformat:0 }}</strong> ke rekening berikut:</p>
-        <ul style="margin-top: 10px;">
-          <li><strong>Bank:</strong> Bank BCA</li>
-          <li><strong>No. Rekening:</strong> 123-456-7890</li>
-          <li><strong>Atas Nama:</strong> Fortuna Batik</li>
-        </ul>
-      </div>
+    /* Fallback kalau gambar statis gak ada, pakai warna/placeholder */
+    .card-image-left.fallback {
+        background-color: #2c3e50;
+        background-image: url('https://via.placeholder.com/400x800?text=Fortuna+Batik');
+    }
 
-      {% if not order.lunas and not order.bukti_pembayaran %}
-        <form class="upload-form" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ upload_form.as_p }}
-          <button type="submit" class="btn-submit-upload">Upload Bukti Transfer</button>
-        </form>
+    /* BAGIAN KANAN: KONTEN (65% Lebar) */
+    .card-content-right {
+        width: 60%;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
 
-      {% elif order.bukti_pembayaran %}
-        <div style="background: #e0f2f1; color: #004d40; padding: 15px; border-radius: 8px; text-align: center; font-weight: 500;">
-          Bukti pembayaran Anda sudah di-upload dan sedang kami periksa.
+    /* Tombol Close (X) */
+    .btn-close-custom {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: #aaa;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .btn-close-custom:hover { color: #333; }
+
+    /* Typography */
+    .payment-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .payment-subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    /* Kotak Instruksi Abu-abu (Seperti Gambar 2) */
+    .instruction-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-left: 5px solid #8b0000; /* Aksen merah batik */
+    }
+
+    .total-amount {
+        font-size: 24px;
+        font-weight: bold;
+        color: #8b0000;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Tombol */
+    .btn-midtrans {
+        background-color: #c44705;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        border: none;
+        width: 100%;
+        font-weight: 600;
+        font-size: 16px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    .btn-midtrans:hover { background-color: #9b3600; }
+
+    .btn-manual-toggle {
+        font-size: 13px;
+        color: #666;
+        text-decoration: underline;
+        background: none;
+        border: none;
+        margin-top: 15px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Upload Manual (Disembunyikan Default) */
+    .manual-upload-area {
+        display: none; /* Hidden by default */
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    /* Responsif untuk HP */
+    @media (max-width: 768px) {
+        .payment-card { flex-direction: column; }
+        .card-image-left { width: 100%; height: 200px; }
+        .card-content-right { width: 100%; padding: 25px; }
+    }
+</style>
+
+<div class="payment-container">
+    <div class="payment-card">
+
+        {% if order.items.first.produk.gambar %}
+            <div class="card-image-left" style="background-image: url('{{ order.items.first.produk.gambar.url }}');"></div>
+        {% else %}
+            <div class="card-image-left fallback"></div>
+        {% endif %}
+
+        <div class="card-content-right">
+
+            <a href="{% url 'toko:homepage' %}" class="btn-close-custom">&times;</a>
+
+            <h1 class="payment-title">Terima Kasih</h1>
+            <p class="payment-subtitle">Pesanan Anda <strong>#{{ order.id }}</strong> telah kami terima.</p>
+
+            {% if order.lunas %}
+                <div class="instruction-box" style="border-left-color: #28a745;">
+                    <h4 style="color: #28a745;"><i class="fas fa-check-circle"></i> LUNAS</h4>
+                    <p class="mb-0">Terima kasih sudah berbelanja di Fortuna Batik.</p>
+                </div>
+                <a href="{% url 'toko:homepage' %}" class="btn btn-midtrans" style="background-color: #28a745;">Kembali Belanja</a>
+
+            {% else %}
+                <div class="instruction-box">
+                    <p style="margin-bottom: 5px; font-weight: 500;">Total Pembayaran:</p>
+                    <span class="total-amount">Rp {{ order.total_bayar|intcomma }}</span>
+
+                    <p style="font-size: 13px; color: #555; margin-bottom: 0;">
+                        Silakan selesaikan pembayaran agar pesanan segera diproses.
+                    </p>
+                </div>
+
+                {% if snap_token %}
+                    <button id="pay-button" class="btn-midtrans">
+                        <i class="fas fa-qrcode"></i> Bayar Sekarang (Otomatis)
+                    </button>
+                    <p style="font-size: 12px; color: #888; text-align: center; margin-top: 8px;">
+                        Mendukung QRIS, GoPay, Transfer Bank Virtual Account
+                    </p>
+                {% endif %}
+
+                <button type="button" class="btn-manual-toggle" onclick="toggleManual()">
+                    Atau upload bukti transfer manual?
+                </button>
+
+                <div id="manual-area" class="manual-upload-area">
+                    <p style="font-size: 14px; font-weight: bold;">Transfer Manual ke:</p>
+                    <ul style="font-size: 13px; padding-left: 20px; color: #444;">
+                        <li><strong>BCA:</strong> 123-456-7890</li>
+                        <li><strong>A/N:</strong> Fortuna Batik</li>
+                    </ul>
+
+                    {% if order.bukti_pembayaran %}
+                        <div class="alert alert-info py-2" style="font-size: 13px;">
+                            Bukti sudah diupload. Menunggu verifikasi.
+                        </div>
+                    {% else %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div style="margin-bottom: 10px;">
+                                {{ upload_form.gambar }}
+                            </div>
+                            <button type="submit" class="btn btn-dark btn-sm w-100">Kirim Bukti</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div style="margin-top: auto; padding-top: 20px; text-align: center;">
+                 <a href="{% url 'toko:homepage' %}" style="font-size: 13px; color: #888; text-decoration: none;">Kembali ke Homepage</a>
+            </div>
+
         </div>
-
-      {% elif order.lunas %}
-        <div style="background: #e8f5e9; color: #1b5e20; padding: 15px; border-radius: 8px; text-align: center; font-weight: 500;">
-          Pesanan ini sudah lunas. Terima kasih!
-        </div>
-      {% endif %}
-
-      <p class="back-link">
-        <a href="{% url 'toko:homepage' %}">Kembali ke Homepage</a>
-      </p>
-
     </div>
-  </div>
+</div>
 
-</body>
-</html>
+<script type="text/javascript">
+    var payButton = document.getElementById('pay-button');
+    if (payButton) {
+        payButton.addEventListener('click', function () {
+            window.snap.pay('{{ snap_token }}', {
+
+                // === BAGIAN INI YANG DIPERBAIKI ===
+                onSuccess: function (result) {
+                    // Kita ambil data dari Midtrans (result) lalu tempel ke URL
+                    // Supaya views.py bisa membacanya
+                    var orderId = result.order_id;
+                    var status = result.transaction_status;
+
+                    alert("Pembayaran Berhasil! Memverifikasi...");
+
+                    // Redirect sambil bawa data
+                    window.location.href = "{% url 'toko:profil' %}?order_id=" + orderId + "&transaction_status=" + status;
+                },
+
+                onPending: function (result) {
+                    var orderId = result.order_id;
+                    var status = result.transaction_status;
+
+                    alert("Menunggu Pembayaran...");
+                    window.location.href = "{% url 'toko:profil' %}?order_id=" + orderId + "&transaction_status=" + status;
+                },
+                // ==================================
+
+                onError: function (result) {
+                    alert("Pembayaran Gagal!");
+                },
+                onClose: function () {
+                    // Tidak melakukan apa-apa
+                }
+            });
+        });
+    }
+
+    // Logic Buka/Tutup Manual
+    function toggleManual() {
+        var x = document.getElementById("manual-area");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+</script>
+
+{% endblock %}

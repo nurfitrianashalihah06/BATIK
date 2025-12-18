@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Profil Saya - Fortuna Batik{% endblock %}
+{% load humanize %} {% block title %}Profil Saya - Fortuna Batik{% endblock %}
 
 {% block content %}
 <main class="container">
@@ -21,50 +20,50 @@
   <div class="profile-layout">
 
     <div class="profile-form">
-  <h3>Ubah Data Akun</h3>
+      <h3>Ubah Data Akun</h3>
 
-  <form method="post">
-    {% csrf_token %}
+      <form method="post">
+        {% csrf_token %}
 
-    {% if user_form.errors or profile_form.errors %}
-      <div class="form-errors" style="color: red; margin-bottom: 15px; font-size: 0.9em;">
-        <p>Harap perbaiki kesalahan di bawah ini:</p>
-        {{ user_form.errors }}
-        {{ profile_form.errors }}
-      </div>
-    {% endif %}
+        {% if user_form.errors or profile_form.errors %}
+          <div class="form-errors" style="color: red; margin-bottom: 15px; font-size: 0.9em;">
+            <p>Harap perbaiki kesalahan di bawah ini:</p>
+            {{ user_form.errors }}
+            {{ profile_form.errors }}
+          </div>
+        {% endif %}
 
-    <p>
-      <label for="username">Username</label>
-      <input type="text" id="username" value="{{ user.username }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
-      <small style="color: #777; font-size: 0.8em;">Username tidak dapat diubah.</small>
-    </p>
+        <p>
+          <label for="username">Username</label>
+          <input type="text" id="username" value="{{ user.username }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
+          <small style="color: #777; font-size: 0.8em;">Username tidak dapat diubah.</small>
+        </p>
 
-    <p>
-      <label for="{{ user_form.first_name.id_for_label }}">Nama Lengkap:</label>
-      {{ user_form.first_name }}
-    </p>
+        <p>
+          <label for="{{ user_form.first_name.id_for_label }}">Nama Lengkap:</label>
+          {{ user_form.first_name }}
+        </p>
 
-    <p>
-      <label for="{{ user_form.email.id_for_label }}">Email address:</label>
-      {{ user_form.email }}
-    </p>
+        <p>
+          <label for="{{ user_form.email.id_for_label }}">Email address:</label>
+          {{ user_form.email }}
+        </p>
 
-    <p>
-      <label for="{{ profile_form.telepon.id_for_label }}">Nomor Telepon:</label>
-      {{ profile_form.telepon }}
-    </p>
+        <p>
+          <label for="{{ profile_form.telepon.id_for_label }}">Nomor Telepon:</label>
+          {{ profile_form.telepon }}
+        </p>
 
-    <p>
-      <label for="role">Peran Anda</label>
-      <input type="text" id="role" value="{{ user.profile.role|capfirst }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
-    </p>
+        <p>
+          <label for="role">Peran Anda</label>
+          <input type="text" id="role" value="{{ user.profile.role|capfirst }}" disabled style="background-color: #f3f4f6; cursor: not-allowed;">
+        </p>
 
-    <button type="submit" class="btn-primary">Simpan Perubahan</button>
-  </form>
+        <button type="submit" class="btn-primary">Simpan Perubahan</button>
+      </form>
 
-  <a href="{% url 'toko:ubah_password' %}" class="change-password-link">Ubah Kata Sandi</a>
-</div>
+      <a href="{% url 'toko:ubah_password' %}" class="change-password-link">Ubah Kata Sandi</a>
+    </div>
 
     <div class="order-history">
       <h3>Riwayat Pesanan</h3>
@@ -75,23 +74,38 @@
               <div class="order-card-header">
                 <div>
                   <strong>Pesanan #{{ order.id }}</strong>
-                  <small>{{ order.dibuat|date:"d M Y" }}</small>
+                  <div style="font-size: 12px; color: #666;">{{ order.dibuat|date:"d M Y, H:i" }}</div>
                 </div>
+
                 {% if order.lunas %}
                   <span class="status-lunas">Lunas</span>
                 {% else %}
-                  <span class="status-pending">Pending</span>
+                  <span class="status-pending">Belum Bayar</span>
                 {% endif %}
               </div>
+
               <div class="order-card-body">
-                <p>Total: <strong>Rp {{ order.total_bayar|floatformat:0 }}</strong></p>
+                <p>Total: <strong style="color: #8b0000;">Rp {{ order.total_bayar|intcomma }}</strong></p>
                 <p>Kepada: {{ order.nama_depan }} {{ order.nama_belakang }}</p>
-                <p>Alamat: {{ order.alamat }}, {{ order.kota }}</p>
+                <p style="margin-bottom: 0;">Alamat: {{ order.alamat }}, {{ order.kota }}</p>
+
+                {% if not order.lunas %}
+                  <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #eee; text-align: right;">
+                    <a href="{% url 'toko:pesanan_berhasil' order.id %}"
+                       style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; display: inline-block;">
+                       <i class="fas fa-wallet"></i> Bayar Sekarang
+                    </a>
+                  </div>
+                {% endif %}
+
               </div>
             </div>
           {% endfor %}
         {% else %}
-          <p>Anda belum memiliki riwayat pesanan.</p>
+          <div style="text-align: center; padding: 20px; color: #777; border: 1px dashed #ccc; border-radius: 8px;">
+            <p>Anda belum memiliki riwayat pesanan.</p>
+            <a href="{% url 'toko:daftar_produk' %}" style="color: #8b0000; font-weight: bold;">Mulai Belanja &raquo;</a>
+          </div>
         {% endif %}
       </div>
     </div>
