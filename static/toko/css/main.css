@@ -1647,3 +1647,104 @@ footer .social-icons-footer a {
         padding: 20px !important;
     }
 }
+
+/* ================================================= */
+/* PERBAIKAN TOTAL HEADER & DETAIL PRODUK (MOBILE)   */
+/* ================================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* --- 1. PERBAIKAN HEADER (Supaya tidak melebar ke samping) --- */
+    header {
+        flex-direction: column; /* Tumpuk Logo, Menu, dan Tombol ke bawah */
+        padding: 15px 10px;     /* Kurangi padding samping */
+        align-items: center;    /* Ratakan tengah */
+        width: 100%;            /* Pastikan tidak lebih dari 100% layar */
+        overflow-x: hidden;     /* Cegah scroll samping pada header */
+    }
+
+    /* Logo di tengah */
+    header .logo {
+        margin-right: 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    /* Menu Navigasi jadi tumpuk atau wrap */
+    header nav {
+        margin: 0 0 15px 0;
+        width: 100%;
+    }
+
+    header nav ul {
+        display: flex;
+        flex-wrap: wrap;       /* Izinkan menu turun ke baris baru */
+        justify-content: center;
+        gap: 10px;             /* Jarak antar menu lebih rapat */
+        padding: 0;
+    }
+
+    header nav ul li a {
+        font-size: 0.85rem;    /* Font menu agak dikecilkan */
+        padding: 8px 12px;
+    }
+
+    /* Bagian Tombol Login/Logout & Nama User */
+    .header-actions {
+        width: 100%;
+        justify-content: center; /* Tengah-kan tombol */
+        flex-wrap: wrap;         /* Izinkan turun baris kalau nama kepanjangan */
+        gap: 10px;
+    }
+
+    /* --- 2. PERBAIKAN HALAMAN DETAIL PRODUK --- */
+    .product-detail-layout {
+        flex-direction: column; /* GAMBAR DI ATAS, TEKS DI BAWAH */
+        gap: 20px;
+        padding: 20px 15px;     /* Kurangi padding biar lega */
+        margin: 0;
+        width: 100%;
+    }
+
+    /* Reset ukuran panel kiri & kanan */
+    .product-image-gallery,
+    .product-info-panel {
+        flex: none;
+        width: 100%;
+        min-width: 0; /* Mencegah flex item maksa lebar */
+    }
+
+    /* Judul Produk di HP */
+    .product-detail-name {
+        font-size: 1.8rem;       /* Kecilkan judul biar gak kepotong */
+        line-height: 1.2;
+        word-wrap: break-word;   /* Paksa teks turun kalau kepanjangan */
+    }
+
+    /* Tombol Quantity dan Add to Cart */
+    .quantity-selector {
+        justify-content: flex-start; /* Rata kiri */
+    }
+
+    /* --- 3. PERBAIKAN HERO SECTION (BANNER) --- */
+    .hero {
+        height: auto;       /* Tinggi menyesuaikan konten */
+        min-height: auto;
+    }
+
+    .hero img {
+        height: 250px;      /* Batasi tinggi gambar di HP */
+        object-position: center;
+    }
+
+    .hero .text-box {
+        position: relative; /* Jangan absolute lagi */
+        top: 0; left: 0;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        margin-top: -20px;  /* Tarik sedikit ke atas biar nempel gambar */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+}
