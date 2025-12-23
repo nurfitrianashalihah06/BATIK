@@ -23,6 +23,10 @@ a {
 ul {
   list-style: none;
 }
+img {
+    max-width: 100%;
+    height: auto;
+}
 
 /* Container */
 .container {
@@ -1593,5 +1597,53 @@ footer .social-icons-footer a {
 @media (max-width: 768px) {
     .rating-css {
         justify-content: center;
+    }
+}
+
+/* ========================================== */
+/* TAMBAHAN PERBAIKAN UNTUK TAMPILAN MOBILE   */
+/* ========================================== */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. Perbaikan Container agar ada jarak di pinggir layar HP */
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* 2. Perbaikan Kartu Produk (Biar 2 Kolom rapi atau 1 Kolom penuh) */
+    .product-list {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;     /* Jarak antar kartu lebih kecil di HP */
+        justify-content: center;
+    }
+
+    .product-list .product-card {
+        width: 48% !important;    /* Paksa jadi 2 kolom (kiri-kanan) */
+        margin: 0 !important;     /* Hapus margin aneh jika ada */
+        flex: 0 0 48% !important; /* Kunci ukuran flexbox */
+    }
+
+    /* Kalo layar HP kecil banget (di bawah 400px), bikin jadi 1 kolom aja */
+    @media (max-width: 400px) {
+        .product-list .product-card {
+            width: 100% !important;
+            flex: 0 0 100% !important;
+        }
+    }
+
+    /* 3. Perbaikan Font Judul agar tidak Raksasa */
+    h1, .hero h1, .section-title {
+        font-size: 1.5rem !important; /* Kecilkan font judul */
+    }
+
+    .hero .text-box {
+        left: 5% !important;
+        right: 5% !important;
+        width: 90% !important;
+        max-width: none !important;
+        padding: 20px !important;
     }
 }
