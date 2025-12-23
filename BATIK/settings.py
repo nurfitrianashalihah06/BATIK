@@ -1,3 +1,5 @@
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.check_database_version_supported = lambda self: None
 """
 Django settings for BATIK project.
 
@@ -81,8 +83,12 @@ WSGI_APPLICATION = 'BATIK.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_batik',      # Nama database yang kamu buat di phpMyAdmin
+        'USER': 'root',          # Username default XAMPP
+        'PASSWORD': '',          # Password default XAMPP (biasanya kosong)
+        'HOST': '127.0.0.1',     # Localhost
+        'PORT': '3306',          # Port default MySQL
     }
 }
 
@@ -150,9 +156,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # === KONFIGURASI MIDTRANS ===
-MIDTRANS_SERVER_KEY = 'GANTI_KEY_INI'
+MIDTRANS_SERVER_KEY = 'GANTI_JADI_DUMMY_LAGI_UNTUK_PUSH'
 
 # Tambahkan "SB-" di depan
-MIDTRANS_CLIENT_KEY = 'GANTI_KEY_INI'
+MIDTRANS_CLIENT_KEY = 'GANTI_JADI_DUMMY_LAGI_UNTUK_PUSH'
 
 MIDTRANS_IS_PRODUCTION = False
