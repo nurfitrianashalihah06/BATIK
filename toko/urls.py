@@ -39,6 +39,4 @@ urlpatterns = [
 
     path('keranjang/hapus/<int:produk_id>/', views.hapus_dari_keranjang, name='hapus_dari_keranjang'),
 
-# toko/urls.py
-path('products/<slug:slug>/', views.detail_produk, name='detail_produk'),
 ]
