@@ -1750,58 +1750,57 @@ footer .social-icons-footer a {
 }
 
 /* ================================================= */
-/* PERBAIKAN HERO BANNER & KARTU TEKS (MOBILE)       */
+/* PERBAIKAN FINAL HERO IMAGE & KARTU TENGAH (HP)    */
 /* ================================================= */
 
-/* Media query ini menargetkan HP dan Tablet posisi portrait */
 @media screen and (max-width: 768px) {
 
-    /* --- 1. MEMPERBESAR TINGGI GAMBAR --- */
+    /* 1. KUNCI AGAR GAMBAR TINGGI */
     .hero {
-        /* Pastikan container hero tingginya fleksibel */
+        position: relative !important; /* Penting biar kartu bisa nempel */
         height: auto !important;
         min-height: auto !important;
-        position: relative !important; /* Penting agar kartu teks bisa menempel */
+        overflow: visible !important;  /* Biarkan kartu menonjol keluar jika perlu */
+        margin-bottom: 60px; /* Kasih jarak bawah biar kartu gak nabrak konten bawahnya */
     }
 
     .hero img {
-        /* Ubah 450px ini jika masih kurang tinggi atau terlalu tinggi.
-           Sebelumnya mungkin sekitar 250px, jadi ini jauh lebih tinggi. */
-        height: 450px !important;
+        /* Ubah angka ini kalau kurang tinggi. 480px biasanya pas buat HP */
+        height: 480px !important;
 
-        /* Agar gambar tidak gepeng saat ditarik ke atas */
+        /* Agar gambar tetap ganteng (tidak gepeng) */
         object-fit: cover !important;
-
-        /* Fokus gambar di tengah agak ke atas sedikit biar wajah tidak kepotong */
-        object-position: center 30% !important;
+        object-position: center center !important;
     }
 
-
-    /* --- 2. MENENGAHKAN KARTU TEKS (FORTUNA BATIK) --- */
+    /* 2. KUNCI AGAR KARTU PAS DI TENGAH (Horizontal & Vertikal) */
     .hero .text-box {
-        position: absolute !important;
+        position: absolute !important; /* Melayang di atas gambar */
 
-        /* Trik Jitu Menengahkan Elemen Absolute */
+        /* Rumus Sakti Centering CSS: */
         left: 50% !important;
-        transform: translateX(-50%) !important;
+        transform: translateX(-50%) !important; /* Geser balik 50% biar pas tengah as */
 
-        /* Atur lebar dan posisi vertikal */
-        width: 85% !important;  /* Lebar 85% dari layar biar ada sisa kiri-kanan */
-        max-width: 350px !important; /* Jangan terlalu lebar di HP besar */
-        top: auto !important;   /* Reset posisi top */
-        bottom: -30px !important; /* Tempelkan di bagian bawah gambar, agak keluar dikit biar estetik */
+        /* Posisi dari bawah gambar */
+        top: auto !important;
+        bottom: -30px !important; /* Minus artinya "tumpah" sedikit ke bawah gambar (efek estetik) */
 
-        /* Reset margin yang mungkin bikin tidak tengah */
-        margin: 0 !important;
-        right: auto !important;
+        /* Ukuran Kartu */
+        width: 85% !important;        /* Lebar 85% layar */
+        max-width: 340px !important;  /* Jangan lebih lebar dari ini */
+        margin: 0 !important;         /* Hapus margin aneh */
 
-        text-align: center; /* Teks di dalamnya rata tengah */
-        z-index: 10; /* Pastikan di atas gambar */
+        /* Kosmetik Kartu */
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Bayangan biar pop-up */
+        z-index: 10;
+        background-color: #fff;
+        border-radius: 8px;
     }
 
-    /* Penyesuaian judul di dalam kartu agar pas */
+    /* Kecilkan dikit font judul biar muat */
     .hero .text-box h1 {
-        font-size: 1.5rem !important;
-        margin-bottom: 10px !important;
+        font-size: 1.6rem !important;
+        margin-bottom: 12px !important;
     }
 }
