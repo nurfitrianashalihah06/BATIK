@@ -1852,49 +1852,77 @@ footer .social-icons-footer a {
 }
 
 /* ================================================= */
-/* PERBAIKAN KERANJANG BELANJA (MOBILE)              */
+/* PERBAIKAN KERANJANG BELANJA (MOBILE - FINAL)      */
 /* ================================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. LAYOUT TUMPUK KE BAWAH */
+    /* --- BAGIAN 1: LAYOUT (KODE LAMA) --- */
+
+    /* 1. Layout Tumpuk ke Bawah */
     .cart-layout {
         display: flex !important;
-        flex-direction: column !important; /* Ubah dari samping ke bawah */
-        gap: 30px !important;
+        flex-direction: column !important;
+        gap: 20px !important;
     }
 
-    /* 2. DAFTAR BARANG & RINGKASAN JADI FULL LEBAR */
+    /* 2. Lebar Penuh */
     .cart-items-list,
     .cart-summary {
-        width: 100% !important; /* Paksa lebar penuh */
-        flex: none !important;  /* Matikan rasio flex desktop */
+        width: 100% !important;
+        flex: none !important;
     }
 
-    /* 3. TABEL AGAR BISA DIGESER (SCROLL SAMPING) */
-    /* Ini penting biar tabelnya gak maksa gepeng sampai teksnya hancur */
+    /* 3. Container Tabel */
     .cart-items-list {
-        overflow-x: auto !important; /* Munculkan scrollbar horizontal jika perlu */
-        padding-bottom: 10px;        /* Beri ruang buat scrollbar */
+        /* Kita ubah sedikit biar gak perlu scroll samping karena gambar udah ilang */
+        overflow-x: hidden !important;
+        padding-bottom: 0 !important;
     }
 
     .cart-table {
         width: 100% !important;
-        min-width: 400px !important; /* Paksa tabel punya lebar minimal biar lega */
+        /* Hapus min-width 400px karena tanpa gambar harusnya muat di layar HP */
+        min-width: auto !important;
     }
 
-    /* 4. PERBAIKAN TOMBOL CHECKOUT */
-    .btn-checkout {
-        width: 100% !important;      /* Tombol selebar layar */
-        padding: 15px 10px !important;
-        height: auto !important;     /* Tinggi menyesuaikan teks */
-        white-space: nowrap !important; /* Cegah teks tombol turun baris aneh */
-        font-size: 1rem !important;
-        margin-top: 10px !important;
-    }
-
-    /* Perbaikan judul Ringkasan Belanja */
+    /* 4. Judul & Tombol */
     .cart-summary h3 {
         font-size: 1.2rem !important;
+    }
+
+    .btn-checkout {
+        width: 100% !important;
+        padding: 12px !important;
+        white-space: normal !important; /* Biar teks bisa turun baris kalau kepanjangan */
+        text-align: center;
+    }
+
+
+    /* --- BAGIAN 2: HILANGKAN GAMBAR (KODE BARU) --- */
+
+    /* 1. Sembunyikan Gambar */
+    .cart-item-image {
+        display: none !important;
+    }
+
+    /* 2. Rapatkan Kolom (Hapus padding bekas tempat gambar) */
+    .cart-table tbody td {
+        padding: 10px 5px !important; /* Kurangi padding biar muat */
+    }
+
+    /* 3. Judul Produk & Harga */
+    .cart-item-name {
+        font-size: 0.95rem !important;
+        margin-bottom: 5px !important;
+        white-space: normal !important; /* Biar nama panjang turun ke bawah */
+    }
+
+    /* 4. Tombol Hapus */
+    .cart-item-remove {
+        font-size: 0.8rem !important;
+        display: inline-block !important;
+        margin-top: 5px !important;
+        color: #c00; /* Merah biar kelihatan tombol hapus */
     }
 }
