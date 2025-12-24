@@ -1850,3 +1850,51 @@ footer .social-icons-footer a {
         margin-top: 0 !important;
     }
 }
+
+/* ================================================= */
+/* PERBAIKAN KERANJANG BELANJA (MOBILE)              */
+/* ================================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. LAYOUT TUMPUK KE BAWAH */
+    .cart-layout {
+        display: flex !important;
+        flex-direction: column !important; /* Ubah dari samping ke bawah */
+        gap: 30px !important;
+    }
+
+    /* 2. DAFTAR BARANG & RINGKASAN JADI FULL LEBAR */
+    .cart-items-list,
+    .cart-summary {
+        width: 100% !important; /* Paksa lebar penuh */
+        flex: none !important;  /* Matikan rasio flex desktop */
+    }
+
+    /* 3. TABEL AGAR BISA DIGESER (SCROLL SAMPING) */
+    /* Ini penting biar tabelnya gak maksa gepeng sampai teksnya hancur */
+    .cart-items-list {
+        overflow-x: auto !important; /* Munculkan scrollbar horizontal jika perlu */
+        padding-bottom: 10px;        /* Beri ruang buat scrollbar */
+    }
+
+    .cart-table {
+        width: 100% !important;
+        min-width: 400px !important; /* Paksa tabel punya lebar minimal biar lega */
+    }
+
+    /* 4. PERBAIKAN TOMBOL CHECKOUT */
+    .btn-checkout {
+        width: 100% !important;      /* Tombol selebar layar */
+        padding: 15px 10px !important;
+        height: auto !important;     /* Tinggi menyesuaikan teks */
+        white-space: nowrap !important; /* Cegah teks tombol turun baris aneh */
+        font-size: 1rem !important;
+        margin-top: 10px !important;
+    }
+
+    /* Perbaikan judul Ringkasan Belanja */
+    .cart-summary h3 {
+        font-size: 1.2rem !important;
+    }
+}
