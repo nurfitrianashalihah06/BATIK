@@ -1749,3 +1749,59 @@ footer .social-icons-footer a {
     }
 }
 
+/* ================================================= */
+/* PERBAIKAN HERO BANNER & KARTU TEKS (MOBILE)       */
+/* ================================================= */
+
+/* Media query ini menargetkan HP dan Tablet posisi portrait */
+@media screen and (max-width: 768px) {
+
+    /* --- 1. MEMPERBESAR TINGGI GAMBAR --- */
+    .hero {
+        /* Pastikan container hero tingginya fleksibel */
+        height: auto !important;
+        min-height: auto !important;
+        position: relative !important; /* Penting agar kartu teks bisa menempel */
+    }
+
+    .hero img {
+        /* Ubah 450px ini jika masih kurang tinggi atau terlalu tinggi.
+           Sebelumnya mungkin sekitar 250px, jadi ini jauh lebih tinggi. */
+        height: 450px !important;
+
+        /* Agar gambar tidak gepeng saat ditarik ke atas */
+        object-fit: cover !important;
+
+        /* Fokus gambar di tengah agak ke atas sedikit biar wajah tidak kepotong */
+        object-position: center 30% !important;
+    }
+
+
+    /* --- 2. MENENGAHKAN KARTU TEKS (FORTUNA BATIK) --- */
+    .hero .text-box {
+        position: absolute !important;
+
+        /* Trik Jitu Menengahkan Elemen Absolute */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+
+        /* Atur lebar dan posisi vertikal */
+        width: 85% !important;  /* Lebar 85% dari layar biar ada sisa kiri-kanan */
+        max-width: 350px !important; /* Jangan terlalu lebar di HP besar */
+        top: auto !important;   /* Reset posisi top */
+        bottom: -30px !important; /* Tempelkan di bagian bawah gambar, agak keluar dikit biar estetik */
+
+        /* Reset margin yang mungkin bikin tidak tengah */
+        margin: 0 !important;
+        right: auto !important;
+
+        text-align: center; /* Teks di dalamnya rata tengah */
+        z-index: 10; /* Pastikan di atas gambar */
+    }
+
+    /* Penyesuaian judul di dalam kartu agar pas */
+    .hero .text-box h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 10px !important;
+    }
+}
