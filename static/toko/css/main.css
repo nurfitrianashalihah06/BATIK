@@ -1808,3 +1808,45 @@ footer .social-icons-footer a {
         padding-top: 40px !important; /* Ganti dengan jarak dalam saja */
     }
 }
+
+/* ================================================= */
+/* PERBAIKAN HALAMAN TENTANG KAMI (MOBILE)           */
+/* ================================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. CONTAINER GAMBAR (WADAH UTAMA) */
+    .about-hero-container {
+        /* PENTING: Ubah tinggi jadi auto biar gambar melar mengikuti teks */
+        height: auto !important;
+        min-height: 500px !important; /* Minimal tinggi segini */
+
+        /* Ubah posisi jadi rata tengah, bukan rata bawah */
+        align-items: center !important;
+
+        /* Beri bantalan atas & bawah agar kartu tidak mepet */
+        padding: 100px 20px 60px 20px !important;
+
+        /* Hapus margin bawah jika ada yang mengganggu */
+        margin-bottom: 0 !important;
+    }
+
+    /* 2. KARTU PUTIH (PENJELASAN TOKO) */
+    .about-content-box {
+        /* Reset margin desktop yang bikin kartu naik */
+        margin-bottom: 0 !important;
+
+        /* Pastikan lebar proporsional */
+        width: 100% !important;
+        max-width: 100% !important;
+
+        /* Sedikit styling tambahan biar rapi */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
+    }
+
+    /* 3. JUDUL DI DALAM KARTU */
+    .about-content-box h1 {
+        font-size: 1.8rem !important; /* Sesuaikan ukuran font HP */
+        margin-top: 0 !important;
+    }
+}
