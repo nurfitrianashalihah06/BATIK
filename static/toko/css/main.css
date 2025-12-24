@@ -1766,7 +1766,7 @@ footer .social-icons-footer a {
 
     .hero img {
         /* Ubah angka ini kalau kurang tinggi. 480px biasanya pas buat HP */
-        height: 500px !important;
+        height: 700px !important;
 
         /* Agar gambar tetap ganteng (tidak gepeng) */
         object-fit: cover !important;
@@ -1783,7 +1783,7 @@ footer .social-icons-footer a {
 
         /* Posisi dari bawah gambar */
         top: auto !important;
-        bottom: 30px !important; /* Minus artinya "tumpah" sedikit ke bawah gambar (efek estetik) */
+        bottom: 60px !important; /* Minus artinya "tumpah" sedikit ke bawah gambar (efek estetik) */
 
         /* Ukuran Kartu */
         width: 85% !important;        /* Lebar 85% layar */
@@ -1792,15 +1792,15 @@ footer .social-icons-footer a {
 
         /* Kosmetik Kartu */
         text-align: center;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Bayangan biar pop-up */
-        z-index: 10;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Bayangan biar pop-up */
+        z-index: 20;
         background-color: #fff;
-        border-radius: 8px;
+        border-radius: 10px;
     }
 
     /* Kecilkan dikit font judul biar muat */
     .hero .text-box h1 {
         font-size: 1.6rem !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 15px !important;
     }
 }
