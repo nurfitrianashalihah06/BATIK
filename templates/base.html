@@ -7,7 +7,6 @@
     <title>{% block title %}Fortuna Batik Wonogiren{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'toko/css/main.css' %}">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
@@ -17,53 +16,43 @@
     <a href="{% url 'toko:homepage' %}" class="logo">Fortuna Batik</a>
 
     <nav>
-        <ul>
-            <li class="{% if request.resolver_match.url_name == 'daftar_produk' %}active{% endif %}">
-                <a href="{% url 'toko:daftar_produk' %}">Produk</a>
-            </li>
-            <li class="{% if request.resolver_match.url_name == 'tentang_kami' %}active{% endif %}">
-                <a href="{% url 'toko:tentang_kami' %}">Tentang Kami</a>
-            </li>
-            <li class="{% if request.resolver_match.url_name == 'kontak' %}active{% endif %}">
-                <a href="{% url 'toko:kontak' %}">Kontak</a>
-            </li>
-            <li class="{% if request.resolver_match.url_name == 'lihat_keranjang' %}active{% endif %}">
-                <a href="{% url 'toko:lihat_keranjang' %}">Keranjang</a>
-            </li>
-            {% if not user.is_authenticated %}
-                <li class="highlight"><a href="{% url 'toko:daftar_produk' %}">Pesan Sekarang</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    <ul>
+        <li class="{% if request.resolver_match.url_name == 'daftar_produk' %}active{% endif %}">
+            <a href="{% url 'toko:daftar_produk' %}">Produk</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'tentang_kami' %}active{% endif %}">
+            <a href="{% url 'toko:tentang_kami' %}">Tentang Kami</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'kontak' %}active{% endif %}">
+            <a href="{% url 'toko:kontak' %}">Kontak</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'lihat_keranjang' %}active{% endif %}">
+            <a href="{% url 'toko:lihat_keranjang' %}">Keranjang</a>
+        </li>
+
+        {% if not user.is_authenticated %}
+            <li class="highlight"><a href="{% url 'toko:daftar_produk' %}">Pesan Sekarang</a></li>
+        {% endif %}
+    </ul>
+</nav>
 
     <div class="header-actions">
-        {% if user.is_authenticated %}
-            <a href="{% url 'toko:logout' %}" class="logout-btn">Logout</a>
-            <a href="{% url 'toko:profil' %}" class="user-profile-link {% if request.resolver_match.url_name == 'profil' %}active{% endif %}">
-                Halo, {{ user.first_name|default:user.username }}
-            </a>
-        {% else %}
-            <a href="{% url 'toko:login' %}" class="login-btn">Login</a>
-        {% endif %}
-    </div>
+    {% if user.is_authenticated %}
 
-    <div class="hamburger-btn" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
-    </div>
+        <a href="{% url 'toko:logout' %}" class="logout-btn">Logout</a>
 
-    <div class="mobile-menu-container" id="mobileMenuDropdown">
-        {% if user.is_authenticated %}
-            <div class="mobile-user-info">
-                <i class="fas fa-user-circle fa-2x" style="color: #ccc;"></i><br>
-                Halo, {{ user.username }}
-            </div>
-            <a href="{% url 'toko:profil' %}" class="mobile-profile-link">Lihat Profil</a>
-            <a href="{% url 'toko:logout' %}" class="mobile-logout-btn">Logout</a>
-        {% else %}
-             <p style="margin-bottom: 15px; color: #666;">Silakan login untuk berbelanja.</p>
-            <a href="{% url 'toko:login' %}" class="mobile-login-btn">Login</a>
-        {% endif %}
-    </div>
+        <a href="{% url 'toko:profil' %}"
+           class="user-profile-link {% if request.resolver_match.url_name == 'profil' %}active{% endif %}">
+            Halo, {{ user.first_name|default:user.username }}
+        </a>
+
+    {% else %}
+        <a href="{% url 'toko:login' %}" class="login-btn">Login</a>
+    {% endif %}
+</div>
 
 </header>
 
@@ -79,8 +68,8 @@
             <ul>
                 <li><a href="{% url 'toko:homepage' %}">Produk</a></li>
                 <li><a href="{% url 'toko:tentang_kami' %}">Tentang Kami</a></li>
-                <li><a href="{% url 'toko:kontak' %}">Kontak</a></li>
-                <li><a href="{% url 'toko:lihat_keranjang' %}">Keranjang</a></li>
+                <li><a href="#">Kontak</a></li>
+                <li><a href="#">Keranjang</a></li>
             </ul>
         </nav>
         <p>© {% now "Y" %} Fortuna Batik, Inc. · Privacy · Terms · Sitemap</p>
@@ -89,56 +78,44 @@
         <p>Tirisan Kulon, Wiroko, Kec. Tirtomoyo, Kabupaten Wonogiri, Jawa Tengah</p>
         <p><a href="mailto:info@fortunabatik.com">agussiswanto16919@gmail.com</a></p>
         <div class="social-links">
-            <a href="https://www.instagram.com/fortuna_batik/" target="_blank" rel="noopener noreferrer" class="social-item">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://wa.me/6285743007071" target="_blank" class="social-item mt-2">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-        </div>
+        <a href="https://www.instagram.com/fortuna_batik/" target="_blank" rel="noopener noreferrer" class="social-item">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+
+        <a href="https://wa.me/6285743007071" target="_blank" class="social-item mt-2">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+    </div>
     </div>
 </footer>
 
 <script>
+  // Menunggu semua konten HTML dimuat sebelum menjalankan skrip
   document.addEventListener('DOMContentLoaded', function() {
 
-    // --- LOGIC TOMBOL HAMBURGER ---
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenuDropdown');
-
-    if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', function() {
-            // Munculkan/Sembunyikan Menu
-            mobileMenu.classList.toggle('active');
-
-            // Ganti Icon (Garis 3 <-> Silang)
-            const icon = mobileBtn.querySelector('i');
-            if (mobileMenu.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    }
-
-    // --- Script Quantity (Tetap dipertahankan) ---
+    // Cari semua grup input jumlah di halaman
     const quantityGroups = document.querySelectorAll('.quantity-input');
+
     quantityGroups.forEach(function(group) {
       const minusBtn = group.querySelector('.quantity-btn.minus');
       const plusBtn = group.querySelector('.quantity-btn.plus');
       const inputField = group.querySelector('input[name="quantity"]');
 
       if (minusBtn && plusBtn && inputField) {
+
+        // Atur apa yang terjadi saat tombol minus (-) diklik
         minusBtn.addEventListener('click', function() {
           let currentValue = parseInt(inputField.value);
+          // Pastikan jumlah tidak kurang dari 1
           if (currentValue > 1) {
             inputField.value = currentValue - 1;
           }
         });
+
+        // Atur apa yang terjadi saat tombol plus (+) diklik
         plusBtn.addEventListener('click', function() {
           let currentValue = parseInt(inputField.value);
+          // Tambahkan 1 ke jumlah
           inputField.value = currentValue + 1;
         });
       }
