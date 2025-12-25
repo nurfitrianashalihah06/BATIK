@@ -1616,14 +1616,20 @@ footer .social-icons-footer a {
     .product-list {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 15px !important;     /* Jarak antar kartu lebih kecil di HP */
+        gap: 10px !important;     /* Jarak antar kartu lebih kecil di HP */
         justify-content: center;
     }
 
     .product-list .product-card {
-        width: 48% !important;    /* Paksa jadi 2 kolom (kiri-kanan) */
-        margin: 0 !important;     /* Hapus margin aneh jika ada */
-        flex: 0 0 48% !important; /* Kunci ukuran flexbox */
+        /* KUNCI RAHASIA: flex-grow: 1 */
+        /* Artinya: "Kalau ada ruang sisa, tolong penuhi ruang itu!" */
+        flex: 1 1 45% !important;
+
+        /* Kita batasi maksimal lebarnya biar gak terlalu raksasa kalau cuma 1 */
+        max-width: 100% !important;
+
+        margin: 0 !important;
+        box-sizing: border-box !important;
     }
 
     /* Kalo layar HP kecil banget (di bawah 400px), bikin jadi 1 kolom aja */
